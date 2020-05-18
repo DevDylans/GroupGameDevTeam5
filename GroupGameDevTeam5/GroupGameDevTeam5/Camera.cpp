@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Camera.h"
-
+using namespace DirectX;
 Camera::Camera()
 {
 	m_position = DirectX::XMFLOAT3(0.f, 0.f, 0.f);
@@ -9,7 +9,11 @@ Camera::Camera()
 	m_rotationVector = XMLoadFloat3(&m_rotation);
 	UpdateMatrix();
 }
-
+void Camera::SetProjectionValues(float fov, float aspectRatio, float nearZ, float farZ, bool threeD)
+{
+	float fovRadians = (fov / 360) * XM_2PI;
+	m_orthoMatrix = XMMatrixPerspectiveFovLH(fovRadians, aspectRatio, nearZ, farZ);
+}
 void Camera::SetProjectionValues(float width, float height, float nearZ, float farZ)
 {
 	m_orthoMatrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, width, height, 0.f, nearZ, farZ);
@@ -30,7 +34,7 @@ void Camera::MovePosition(float x, float y, float z)
 }
 void Camera::MovePosition(const DirectX::XMVECTOR& pos)
 {
-	DirectX::XMVectorAdd(m_positionVector, pos);
+	m_positionVector += pos;
 	DirectX::XMStoreFloat3(&m_position, m_positionVector);
 	UpdateMatrix();
 }
@@ -56,7 +60,21 @@ void Camera::Rotate(DirectX::XMVECTOR& rot)
 }
 void Camera::UpdateMatrix()
 {
-	DirectX::XMMATRIX translation = DirectX::XMMatrixTranslation(-m_position.x, -m_position.y, 0.f);
-	DirectX::XMMATRIX rotation = DirectX::XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
+	
+	XMMATRIX camRotationMatrix = XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
+	XMVECTOR camTarget = XMVector3TransformCoord(m_defaultForward, camRotationMatrix);
+	camTarget += m_positionVector;
+	XMVECTOR up = XMVector3TransformCoord(m_camUp, camRotationMatrix);
+	m_viewMatrix = XMMatrixLookAtLH(m_positionVector, camTarget, up);
+	
+	XMMATRIX vecRotationMatrix = XMMatrixRotationRollPitchYaw(0.0f,m_rotation.y,0.0f);
+	m_camForwad = XMVector3TransformCoord(m_defaultForward, vecRotationMatrix);
+	m_camBack = XMVector3TransformCoord(m_defaultBack, vecRotationMatrix);
+	m_camLeft = XMVector3TransformCoord(m_defaultLeft, vecRotationMatrix);
+	m_camRight = XMVector3TransformCoord(m_defaultRight, vecRotationMatrix);
+	/*
+	XMMATRIX translation = XMMatrixTranslation(-m_position.x, -m_position.y, 0.f);
+	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
 	m_worldMatrix = rotation * translation;
+	m_viewMatrix = XMMatrixTranspose(m_worldMatrix);*/
 }

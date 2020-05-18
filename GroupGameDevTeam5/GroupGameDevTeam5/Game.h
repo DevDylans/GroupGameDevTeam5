@@ -6,7 +6,8 @@
 
 #include "DeviceResources.h"
 #include "StepTimer.h"
-
+#include "Graphics.h"
+#include <iostream>
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -47,6 +48,7 @@ private:
     void CreateDeviceDependentResources();
     void CreateWindowSizeDependentResources();
 
+    Graphics* m_graphicsComponenet = nullptr;
     // Device resources.
     std::unique_ptr<DX::DeviceResources>    m_deviceResources;
 

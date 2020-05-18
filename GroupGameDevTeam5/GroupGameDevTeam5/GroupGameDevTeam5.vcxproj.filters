@@ -49,6 +49,12 @@
     <ClInclude Include="Graphics.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">
@@ -79,6 +85,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Graphics.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

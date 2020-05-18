@@ -1,17 +1,21 @@
 #pragma once
 #include "Quad.h"
 #include <DirectXMath.h>
-//#include "TexturedQuad.h"
+#include "Texture.h"
+#include "Structs.h"
 class RenderedObject
 {
 public:
-	RenderedObject(Microsoft::WRL::ComPtr<ID3D11Device>& device);
-	RenderedObject(Microsoft::WRL::ComPtr<ID3D11Device>& device, float scaleX, float scaleY, Quad& quad);
+	RenderedObject(Quad& quad, Texture& texture);
+	RenderedObject(Quad& quad, Texture& texture, float posX, float posY, float posZ);
+	RenderedObject(Quad& quad, Texture& texture, float posX, float posY, float posZ, float scaleX, float scaleY);
+	RenderedObject(Quad& quad, Texture& texture, float posX, float posY, float posZ, float scaleX, float scaleY, float rotX, float rotY, float rotZ);
 
-	void Draw(DirectX::XMMATRIX orthoMatrix);
+	void Draw(ID3D11DeviceContext* context, DirectX::XMMATRIX orthoMatrix, DirectX::XMMATRIX cameraMatrix, Microsoft::WRL::ComPtr<ID3D11Buffer>& constantBuffer);
 
-	float GetWidth() const { return m_scale.x; }
-	float GetHieght() const { return m_scale.y; }
+	DirectX::XMMATRIX GetWorldMatrix() { return m_worldMatrix; }
+	Quad* GetQuad() const { return m_renderQuad; }
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> GetTexture() const { return m_texture; }
 
 	void SetScale(float x, float y) { m_scale.x = x; m_scale.y = y; UpdateMatrix();}
 	void SetPosition(float x, float y, float z);
@@ -24,8 +28,7 @@ private:
 	void UpdateMatrix();
 
 	DirectX::XMMATRIX m_worldMatrix = DirectX::XMMatrixIdentity();
-	ID3D11Texture2D* m_texture;
-	ID3D11DeviceContext* m_deviceContext = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 
 	Quad* m_renderQuad;
 

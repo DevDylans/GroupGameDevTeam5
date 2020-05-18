@@ -27,7 +27,6 @@ void Game::Initialize(HWND window, int width, int height)
 
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
-
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*
@@ -55,6 +54,8 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
+    m_graphicsComponenet->Update(elapsedTime);
+
 }
 #pragma endregion
 
@@ -75,6 +76,8 @@ void Game::Render()
 
     // TODO: Add your rendering code here.
     context;
+    //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
+    m_graphicsComponenet->Draw(context);
 
     m_deviceResources->PIXEndEvent();
 
@@ -161,6 +164,8 @@ void Game::CreateDeviceDependentResources()
 
     // TODO: Initialize device dependent objects here (independent of window size).
     device;
+
+    m_graphicsComponenet = new Graphics(device);
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.
