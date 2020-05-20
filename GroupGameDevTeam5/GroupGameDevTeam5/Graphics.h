@@ -6,6 +6,7 @@
 #include "Shaders.h"
 #include "Structs.h"
 #include "Texture.h"
+#include "GameObject.h"
 #include <vector>
 
 class Graphics
@@ -14,7 +15,8 @@ public:
 
 	Graphics(ID3D11Device* device);
 	void DefaultIntialize(ID3D11Device* device);
-	void Draw(ID3D11DeviceContext* context);
+	void DrawNoAnim(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects);
+	void DrawNoAnim(ID3D11DeviceContext* context, int shaderID, GameObject* object);
 	void Update(float time);
 
 	VertexShader* GetDefaultVertexShader() const { return m_vertexShaders[0]; }
@@ -26,11 +28,9 @@ public:
 	Quad* GetSpecificQuadType(int id) const { return m_quadTypes[id]; }
 
 	std::vector<RenderedObject*> GetObjectsToRender() const { return m_objectsToRender; }
+	RenderedObject* GetSpecificRenderObject(int id) {return m_objectsToRender[id]; }
 
 	void CreateRenderObject(int quadID, int textureID);
-	void CreateRenderObject(int quadID, int textureID,DirectX::XMFLOAT3 position);
-	void CreateRenderObject(int quadID, int textureID, DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 scale);
-	void CreateRenderObject(int quadID, int textureID, DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 scale, DirectX::XMFLOAT3 rotation);
 private:
 	std::vector<VertexShader*> m_vertexShaders;
 	std::vector<PixelShader*> m_pixelShaders;
@@ -39,9 +39,9 @@ private:
 	std::vector<RenderedObject*> m_objectsToRender;
 	Camera* m_camera = nullptr;
 
+	ID3D11BlendState* m_blendState;
 	Microsoft::WRL::ComPtr<ID3D11Buffer> m_constantBuffer;
 	Microsoft::WRL::ComPtr<ID3D11RasterizerState> m_rasterizerState;
-	Microsoft::WRL::ComPtr<ID3D11BlendState> m_blendState;
 	Microsoft::WRL::ComPtr<ID3D11SamplerState> m_samplerState;
 };
 

@@ -9,14 +9,9 @@ Camera::Camera()
 	m_rotationVector = XMLoadFloat3(&m_rotation);
 	UpdateMatrix();
 }
-void Camera::SetProjectionValues(float fov, float aspectRatio, float nearZ, float farZ, bool threeD)
-{
-	float fovRadians = (fov / 360) * XM_2PI;
-	m_orthoMatrix = XMMatrixPerspectiveFovLH(fovRadians, aspectRatio, nearZ, farZ);
-}
 void Camera::SetProjectionValues(float width, float height, float nearZ, float farZ)
 {
-	m_orthoMatrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, width, height, 0.f, nearZ, farZ);
+	m_orthoMatrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, width, 0.f, height, nearZ, farZ);
 }
 void Camera::SetPosition(float x, float y, float z)
 {
@@ -54,13 +49,12 @@ void Camera::Rotate(float x, float y, float z)
 }
 void Camera::Rotate(DirectX::XMVECTOR& rot)
 {
-	DirectX::XMVectorAdd(m_rotationVector, rot);
+	m_positionVector += rot;
 	DirectX::XMStoreFloat3(&m_rotation, m_rotationVector);
 	UpdateMatrix();
 }
 void Camera::UpdateMatrix()
-{
-	
+{	
 	XMMATRIX camRotationMatrix = XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
 	XMVECTOR camTarget = XMVector3TransformCoord(m_defaultForward, camRotationMatrix);
 	camTarget += m_positionVector;
@@ -72,9 +66,4 @@ void Camera::UpdateMatrix()
 	m_camBack = XMVector3TransformCoord(m_defaultBack, vecRotationMatrix);
 	m_camLeft = XMVector3TransformCoord(m_defaultLeft, vecRotationMatrix);
 	m_camRight = XMVector3TransformCoord(m_defaultRight, vecRotationMatrix);
-	/*
-	XMMATRIX translation = XMMatrixTranslation(-m_position.x, -m_position.y, 0.f);
-	XMMATRIX rotation = XMMatrixRotationRollPitchYaw(m_rotation.x, m_rotation.y, m_rotation.z);
-	m_worldMatrix = rotation * translation;
-	m_viewMatrix = XMMatrixTranspose(m_worldMatrix);*/
 }

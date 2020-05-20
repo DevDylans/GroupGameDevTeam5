@@ -25,12 +25,13 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	Texture* test = new Texture(device,L"TestTexture.png");
 	m_textures.push_back(test);
 	m_camera = new Camera();
-	//m_camera->SetProjectionValues(800, 600, 0.1, 50);
-	m_camera->SetPosition(0.0f, 0.0f, -2.0f);
-	m_camera->SetProjectionValues(90, 800/600, 0.1f, 100.f, true);
+	m_camera->SetProjectionValues(800, 600, 0.1, 50);
+	m_camera->SetPosition(0.0f, 0.0f, 0.0f);
+	m_camera->SetRotation(0.0f,0.0f,0.0f);
 
 	CD3D11_RASTERIZER_DESC rastDesc(D3D11_DEFAULT);
-	rastDesc.CullMode = D3D11_CULL_NONE;
+	//rastDesc.CullMode = D3D11_CULL_NONE;
+
 	DX::ThrowIfFailed(device->CreateRasterizerState(&rastDesc, m_rasterizerState.GetAddressOf()));
 
 	CD3D11_SAMPLER_DESC sampDesc(D3D11_DEFAULT);
@@ -46,66 +47,104 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	bd.CPUAccessFlags = 0;
 	DX::ThrowIfFailed(device->CreateBuffer(&bd, nullptr, &m_constantBuffer));
 
-	CreateRenderObject(0, 0, DirectX::XMFLOAT3(0, 0, 0), DirectX::XMFLOAT2(1, 1),DirectX::XMFLOAT3(0,0,0));
-	CreateRenderObject(0, 0, DirectX::XMFLOAT3(10, 10, 0), DirectX::XMFLOAT2(10, 10));
-	CreateRenderObject(0, 0, DirectX::XMFLOAT3(15, 15, 0), DirectX::XMFLOAT2(10, 10));
-	CreateRenderObject(0, 0, DirectX::XMFLOAT3(5, 5, 0), DirectX::XMFLOAT2(10, 10));
-	CreateRenderObject(0, 0, DirectX::XMFLOAT3(5, 5, 0), DirectX::XMFLOAT2(10, 10));
-	//D3D11_RENDER_TARGET_BLEND_DESC rtbDesc = { 0 };
-	//rtbDesc.BlendEnable = true;
-}
-//Call from inside gameloop
-void Graphics::Draw(ID3D11DeviceContext* context)
-{
-	//compare Quads 
-	//set vertex and index buffers
-	//set states
-	//call each rendered Object
+	CD3D11_BLEND_DESC blendDesc = {};
+	blendDesc.RenderTarget[0].BlendEnable = TRUE;
+	blendDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	blendDesc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	DX::ThrowIfFailed(device->CreateBlendState(&blendDesc, &m_blendState));
 
+}
+
+//call from inside gameloop
+void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects)
+{
 	UINT stride = sizeof(TexturedVertex);
 	UINT offset = 0;
-	Quad* current = nullptr;
-	context->IASetInputLayout(m_vertexShaders[0]->GetInputLayout());
+	Quad* currentQuad = nullptr;
+	ID3D11ShaderResourceView* currentTex = nullptr;
+	RenderedObject* currentRenderObj = nullptr;
+	ConstantBuffer2D cb;
+
+	context->OMSetBlendState(m_blendState, nullptr, 0xffffffff);
+	context->IASetInputLayout(m_vertexShaders[shaderID]->GetInputLayout());
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	context->RSSetState(m_rasterizerState.Get());
 	context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
-	context->VSSetShader(m_vertexShaders[0]->GetShader(), NULL, 0);
-	context->PSSetShader(m_pixelShaders[0]->GetShader(), NULL, 0);
-	for (int i = 0; i < m_objectsToRender.size(); i++)
+	context->VSSetShader(m_vertexShaders[shaderID]->GetShader(), NULL, 0);
+	context->PSSetShader(m_pixelShaders[shaderID]->GetShader(), NULL, 0);
+	cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
+	cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
+	int size = objects.size();
+	for (int i = 0; i < size; i++)
 	{
-		if (current != m_objectsToRender[i]->GetQuad())
+		if (objects[i]->GetRenderObject() != currentRenderObj)
 		{
-			current = m_objectsToRender[i]->GetQuad();
-			ID3D11Buffer* vb = current->GetVertexBuffer();
-			context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
-			context->IASetIndexBuffer(current->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+			currentRenderObj = objects[i]->GetRenderObject();
+			if (currentQuad != currentRenderObj->GetQuad())
+			{
+				currentQuad = currentRenderObj->GetQuad();
+				ID3D11Buffer* vb = currentQuad->GetVertexBuffer();
+				context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
+				context->IASetIndexBuffer(currentQuad->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+			}
+			if (currentTex != currentRenderObj->GetTexture(0))
+			{
+				currentTex = currentRenderObj->GetTexture(0);
+				context->PSSetShaderResources(0, 1, &currentTex);
+			}
 		}
-		//m_objectsToRender[i]->Draw(context,m_camera->GetOrthoMatrix(),m_camera->GetWorldMatrix() ,m_constantBuffer);
-		//context->DrawIndexed(6, 0, 0);	
-		ConstantBuffer2D cb;
-		//DirectX::XMMATRIX wvpMatrix = m_objectsToRender[i]->GetWorldMatrix() * m_camera->GetOrthoMatrix() * m_camera->GetViewMatrix();
-		cb.world = XMMatrixTranspose(m_objectsToRender[i]->GetWorldMatrix());
-		//cb.world = XMMatrixTranspose(XMMatrixIdentity());
-		cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
-		cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
+		objects[i]->UpdateRenderMatrix();
+		cb.world = XMMatrixTranspose(objects[i]->GetRenderObject()->GetWorldMatrix());
 		context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
 		context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
-		context->PSSetShaderResources(0, 1, m_objectsToRender[i]->GetTexture().GetAddressOf());
 		context->DrawIndexed(6, 0, 0);
 	}
+}
 
+void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, GameObject* object)
+{
+	UINT stride = sizeof(TexturedVertex);
+	UINT offset = 0;
+	ConstantBuffer2D cb;
+
+	context->OMSetBlendState(m_blendState, nullptr, 0xffffffff);
+	context->IASetInputLayout(m_vertexShaders[shaderID]->GetInputLayout());
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->RSSetState(m_rasterizerState.Get());
+	context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
+	context->VSSetShader(m_vertexShaders[shaderID]->GetShader(), NULL, 0);
+	context->PSSetShader(m_pixelShaders[shaderID]->GetShader(), NULL, 0);
+
+	cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
+	cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
+
+	ID3D11Buffer* vb = object->GetRenderObject()->GetQuad()->GetVertexBuffer();
+	context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
+	context->IASetIndexBuffer(object->GetRenderObject()->GetQuad()->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+	ID3D11ShaderResourceView* currentTex = object->GetRenderObject()->GetTexture(0);
+	context->PSSetShaderResources(0, 1, &currentTex);
+	object->UpdateRenderMatrix();
+	cb.world = XMMatrixTranspose(object->GetRenderObject()->GetWorldMatrix());
+	context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
+	context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+	context->DrawIndexed(6, 0, 0);
 }
 
 void Graphics::Update(float time)
 {
-	float speed = 0.1;
+	float speed = 100 * time;
 	if (GetAsyncKeyState('W'))
 	{
-		m_camera->MovePosition(m_camera->GetForward() * speed);
+		m_camera->MovePosition(0, speed, 0);
 	}
 	if (GetAsyncKeyState('S'))
 	{
-		m_camera->MovePosition(m_camera->GetBackward() * speed);
+		m_camera->MovePosition(0, -speed, 0);
 	}
 	if (GetAsyncKeyState('A'))
 	{
@@ -115,32 +154,10 @@ void Graphics::Update(float time)
 	{
 		m_camera->MovePosition(m_camera->GetRight() * speed);
 	}
-	if (GetAsyncKeyState(VK_SPACE))
-	{
-		m_camera->MovePosition(0, speed, 0);
-	}
 }
 
 void Graphics::CreateRenderObject(int quadID, int textureID)
 {
 	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID]);
-	m_objectsToRender.push_back(obj);
-}
-
-void Graphics::CreateRenderObject(int quadID, int textureID, DirectX::XMFLOAT3 position)
-{
-	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID],position.x,position.y,position.z);
-	m_objectsToRender.push_back(obj);
-}
-
-void Graphics::CreateRenderObject(int quadID, int textureID, DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 scale)
-{
-	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID], position.x, position.y, position.z,scale.x,scale.y);
-	m_objectsToRender.push_back(obj);
-}
-
-void Graphics::CreateRenderObject(int quadID, int textureID, DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 scale, DirectX::XMFLOAT3 rotation)
-{
-	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID], position.x, position.y, position.z, scale.x, scale.y,rotation.x,rotation.y,rotation.z);
 	m_objectsToRender.push_back(obj);
 }

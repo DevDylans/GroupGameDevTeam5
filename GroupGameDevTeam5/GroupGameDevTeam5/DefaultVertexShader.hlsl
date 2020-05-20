@@ -1,4 +1,4 @@
-//#pragma pack_matrix( row_major )
+
 cbuffer ConstantBuffer : register (b0)
 {
 	matrix world;
@@ -22,11 +22,6 @@ VSOutput main(VSInput input)
 	output.pos = mul(input.pos, world);
 	output.pos = mul(output.pos, view);
 	output.pos = mul(output.pos, proj);
-	//output.pos = mul(input.pos, wvpMatrix);
-	//output.pos.x = input.pos.x;
-	//output.pos.y = input.pos.y;
-	//output.pos.z = input.pos.z;
-	//output.pos.w = 1;
 	output.tex = input.tex;
 	return output;
 }
