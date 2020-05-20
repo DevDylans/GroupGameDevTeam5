@@ -4,16 +4,9 @@
 RenderedObject::RenderedObject(Quad& quad, Texture& texture )
 {
 	m_renderQuad = &quad;
-	m_textures.push_back(texture.GetTexture());
-}
-void RenderedObject::Draw(ID3D11DeviceContext* context, DirectX::XMMATRIX orthoMatrix, DirectX::XMMATRIX cameraMatrix, Microsoft::WRL::ComPtr<ID3D11Buffer>& constantBuffer)
-{
-	//ConstantBuffer2D cb;
-	//DirectX::XMMATRIX wvpMatrix = m_worldMatrix * orthoMatrix * cameraMatrix;
-	//cb.wvpMatrix = DirectX::XMMatrixTranspose(wvpMatrix);
-	//context->UpdateSubresource(constantBuffer.Get(), 0, nullptr, &cb,0,0);
-	//context->VSSetConstantBuffers(0, 1, constantBuffer.GetAddressOf());
-	//context->PSSetShaderResources(0, 1, m_texture.GetAddressOf());
+	std::vector<ID3D11ShaderResourceView*> base;
+	base.push_back(texture.GetTexture());
+	m_textures.push_back(base);
 }
 void RenderedObject::UpdateMatrix(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 scale, DirectX::XMFLOAT3 rotation)
 {

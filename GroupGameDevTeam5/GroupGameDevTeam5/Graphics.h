@@ -31,6 +31,7 @@ public:
 	RenderedObject* GetSpecificRenderObject(int id) {return m_objectsToRender[id]; }
 
 	void CreateRenderObject(int quadID, int textureID);
+	void CreateTexture(ID3D11Device* device, std::wstring texturePath);
 private:
 	std::vector<VertexShader*> m_vertexShaders;
 	std::vector<PixelShader*> m_pixelShaders;

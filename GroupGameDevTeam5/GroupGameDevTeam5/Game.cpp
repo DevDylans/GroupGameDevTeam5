@@ -173,6 +173,7 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
+    m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), L"TestTexture.png");
     m_graphicsComponenet->CreateRenderObject(0, 0);
     GameObject* obj = new GameObject(XMFLOAT3(200,100,5),XMFLOAT2(50,50));
     obj->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));

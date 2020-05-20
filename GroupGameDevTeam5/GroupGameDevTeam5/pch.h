@@ -48,7 +48,6 @@
 #include <stdexcept>
 
 #include <stdio.h>
-#include "packages\directxtk_desktop_2015.2019.12.17.1\include\WICTextureLoader.h"
 
 #ifdef _DEBUG
 #include <dxgidebug.h>

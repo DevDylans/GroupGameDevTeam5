@@ -22,12 +22,9 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	m_pixelShaders.push_back(pixShader);
 	Quad* newQuad = new TexturedQuad(device);
 	m_quadTypes.push_back(newQuad);
-	Texture* test = new Texture(device,L"TestTexture.png");
-	m_textures.push_back(test);
 	m_camera = new Camera();
 	m_camera->SetProjectionValues(800, 600, 0.1, 50);
-	m_camera->SetPosition(0.0f, 0.0f, 0.0f);
-	m_camera->SetRotation(0.0f,0.0f,0.0f);
+
 
 	CD3D11_RASTERIZER_DESC rastDesc(D3D11_DEFAULT);
 	//rastDesc.CullMode = D3D11_CULL_NONE;
@@ -92,9 +89,9 @@ void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, std::vecto
 				context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
 				context->IASetIndexBuffer(currentQuad->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
 			}
-			if (currentTex != currentRenderObj->GetTexture(0))
+			if (currentTex != currentRenderObj->GetTexture(0,0))
 			{
-				currentTex = currentRenderObj->GetTexture(0);
+				currentTex = currentRenderObj->GetTexture(0,0);
 				context->PSSetShaderResources(0, 1, &currentTex);
 			}
 		}
@@ -126,7 +123,7 @@ void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, GameObject
 	ID3D11Buffer* vb = object->GetRenderObject()->GetQuad()->GetVertexBuffer();
 	context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
 	context->IASetIndexBuffer(object->GetRenderObject()->GetQuad()->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
-	ID3D11ShaderResourceView* currentTex = object->GetRenderObject()->GetTexture(0);
+	ID3D11ShaderResourceView* currentTex = object->GetRenderObject()->GetTexture(0,0);
 	context->PSSetShaderResources(0, 1, &currentTex);
 	object->UpdateRenderMatrix();
 	cb.world = XMMatrixTranspose(object->GetRenderObject()->GetWorldMatrix());
@@ -160,4 +157,10 @@ void Graphics::CreateRenderObject(int quadID, int textureID)
 {
 	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID]);
 	m_objectsToRender.push_back(obj);
+}
+
+void Graphics::CreateTexture(ID3D11Device* device, std::wstring texturePath)
+{
+	Texture* tex = new Texture(device,texturePath);
+	m_textures.push_back(tex);
 }
