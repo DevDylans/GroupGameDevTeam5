@@ -6,7 +6,9 @@
 
 #include "DeviceResources.h"
 #include "StepTimer.h"
-
+#include "Graphics.h"
+#include "GameObject.h"
+#include <iostream>
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -49,7 +51,11 @@ private:
 
     // Device resources.
     std::unique_ptr<DX::DeviceResources>    m_deviceResources;
+    Graphics* m_graphicsComponenet = nullptr;
 
     // Rendering loop timer.
     DX::StepTimer                           m_timer;
+
+    // Gameplay Objects
+    std::vector<GameObject*> m_gameObjects;
 };
