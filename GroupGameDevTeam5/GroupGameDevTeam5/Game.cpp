@@ -77,8 +77,8 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
     //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
-    m_graphicsComponenet->DrawNoAnim(context,0,m_gameObjects);
-    //m_graphicsComponenet->DrawNoAnim(context, 0, m_gameObjects[0]);
+    m_graphicsComponenet->DrawNoAnim(context,0,m_gameObjects[0]);
+    m_graphicsComponenet->DrawAnimation(context, 0, m_gameObjects[1]);
 
     m_deviceResources->PIXEndEvent();
 
@@ -178,8 +178,12 @@ void Game::CreateWindowSizeDependentResources()
     GameObject* obj = new GameObject(XMFLOAT3(200,100,5),XMFLOAT2(50,50));
     obj->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
     m_gameObjects.push_back(obj);
+    std::vector<std::wstring> animationFrameNames;
+    animationFrameNames.push_back(L"TestTexture.png");  animationFrameNames.push_back(L"TestTexture2.png");  animationFrameNames.push_back(L"TestTexture3.png");
+    m_graphicsComponenet->CreateTextureGroup(m_deviceResources->GetD3DDevice(), animationFrameNames);
+    m_graphicsComponenet->CreateAnimatedRenderObject(0, 0, 0.75f);
     GameObject* objTwo = new GameObject(XMFLOAT3(400, 200, 5), XMFLOAT2(50, 50));
-    objTwo->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    objTwo->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(1));
     m_gameObjects.push_back(objTwo);
 }
 

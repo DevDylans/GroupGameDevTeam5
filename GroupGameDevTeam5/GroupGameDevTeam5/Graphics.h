@@ -19,7 +19,8 @@ public:
 	void DrawNoAnim(ID3D11DeviceContext* context, int shaderID, GameObject* object);
 	void DrawSubTexture(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects, int subTextureID);
 	void DrawSubTexture(ID3D11DeviceContext* context, int shaderID, GameObject* object, int subTextureID);
-	void DrawAnimation(ID3D11DeviceContext* context, int shaderID, GameObject* object, int animationID);
+	void DrawAnimation(ID3D11DeviceContext* context, int shaderID, GameObject* object);
+	void DrawAnimation(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects);
 	void Update(float time);
 	void ChangeCameraProjection(float, float, float, float);
 
@@ -35,12 +36,12 @@ public:
 	RenderedObject* GetSpecificRenderObject(int id) {return m_objectsToRender[id]; }
 
 	void CreateRenderObject(int quadID, int textureID);
-	void CreateAnimatedRenderObject(int quadID, int animationID);
+	void CreateAnimatedRenderObject(int quadID, int animationID, float frameTime);
 	void CreateTexture(ID3D11Device* device, std::wstring texturePath);
 	void CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath);
 
-	void AddAnimationToRenderObject(int objectID, int animationID);
-	void AddAnimationToRenderObject(RenderedObject* object, int animationID);
+	void AddAnimationToRenderObject(int objectID, int animationID, float frameTime);
+	void AddAnimationToRenderObject(RenderedObject* object, int animationID, float frameTime);
 private:
 	std::vector<VertexShader*> m_vertexShaders;
 	std::vector<PixelShader*> m_pixelShaders;

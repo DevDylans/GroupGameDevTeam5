@@ -207,6 +207,81 @@ void Graphics::DrawSubTexture(ID3D11DeviceContext* context, int shaderID, GameOb
 	context->DrawIndexed(6, 0, 0);
 }
 
+void Graphics::DrawAnimation(ID3D11DeviceContext* context, int shaderID, GameObject* object)
+{
+	UINT stride = sizeof(TexturedVertex);
+	UINT offset = 0;
+	ConstantBuffer2D cb;
+
+	context->OMSetBlendState(m_blendState, nullptr, 0xffffffff);
+	context->IASetInputLayout(m_vertexShaders[shaderID]->GetInputLayout());
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->RSSetState(m_rasterizerState.Get());
+	context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
+	context->VSSetShader(m_vertexShaders[shaderID]->GetShader(), NULL, 0);
+	context->PSSetShader(m_pixelShaders[shaderID]->GetShader(), NULL, 0);
+
+	cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
+	cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
+
+	ID3D11Buffer* vb = object->GetRenderObject()->GetQuad()->GetVertexBuffer();
+	context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
+	context->IASetIndexBuffer(object->GetRenderObject()->GetQuad()->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+	int frame = object->GetRenderObject()->GetCurrentFrame();
+	int anim = object->GetRenderObject()->GetCurrentAnimation();
+	ID3D11ShaderResourceView* currentTex = object->GetRenderObject()->GetTexture(anim, frame);
+	context->PSSetShaderResources(0, 1, &currentTex);
+	object->UpdateRenderMatrix();
+	cb.world = XMMatrixTranspose(object->GetRenderObject()->GetWorldMatrix());
+	context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
+	context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+	context->DrawIndexed(6, 0, 0);
+}
+
+void Graphics::DrawAnimation(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects)
+{
+	UINT stride = sizeof(TexturedVertex);
+	UINT offset = 0;
+	Quad* currentQuad = nullptr;
+	ID3D11ShaderResourceView* currentTex = nullptr;
+	RenderedObject* currentRenderObj = nullptr;
+	ConstantBuffer2D cb;
+
+	context->OMSetBlendState(m_blendState, nullptr, 0xffffffff);
+	context->IASetInputLayout(m_vertexShaders[shaderID]->GetInputLayout());
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->RSSetState(m_rasterizerState.Get());
+	context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
+	context->VSSetShader(m_vertexShaders[shaderID]->GetShader(), NULL, 0);
+	context->PSSetShader(m_pixelShaders[shaderID]->GetShader(), NULL, 0);
+	cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
+	cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
+	int size = objects.size();
+	for (int i = 0; i < size; i++)
+	{
+		if (objects[i]->GetRenderObject() != currentRenderObj)
+		{
+			currentRenderObj = objects[i]->GetRenderObject();
+			if (currentQuad != currentRenderObj->GetQuad())
+			{
+				currentQuad = currentRenderObj->GetQuad();
+				ID3D11Buffer* vb = currentQuad->GetVertexBuffer();
+				context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
+				context->IASetIndexBuffer(currentQuad->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+			}
+		}
+		int anim = objects[i]->GetRenderObject()->GetCurrentAnimation();
+		int frame = objects[i]->GetRenderObject()->GetCurrentFrame();
+		currentTex = currentRenderObj->GetTexture(anim, frame);
+		context->PSSetShaderResources(0, 1, &currentTex);
+		objects[i]->UpdateRenderMatrix();
+		cb.world = XMMatrixTranspose(objects[i]->GetRenderObject()->GetWorldMatrix());
+		context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
+		context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+		context->DrawIndexed(6, 0, 0);
+	}
+}
+
 void Graphics::Update(float time)
 {
 	float speed = 100 * time;
@@ -226,6 +301,13 @@ void Graphics::Update(float time)
 	{
 		m_camera->MovePosition(m_camera->GetRight() * speed);
 	}
+	for (int i = 0; i < m_objectsToRender.size(); i++)
+	{
+		if (m_objectsToRender[i]->m_animated)
+		{
+			m_objectsToRender[i]->AnimationUpdate(time);
+		}
+	}
 }
 
 void Graphics::ChangeCameraProjection(float width, float height, float nearZ, float farZ)
@@ -239,9 +321,9 @@ void Graphics::CreateRenderObject(int quadID, int textureID)
 	m_objectsToRender.push_back(obj);
 }
 
-void Graphics::CreateAnimatedRenderObject(int quadID, int animationID)
+void Graphics::CreateAnimatedRenderObject(int quadID, int animationID , float frameTime)
 {
-	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], m_animations[animationID]);
+	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], m_animations[animationID], frameTime);
 	m_objectsToRender.push_back(obj);
 }
 
@@ -260,18 +342,18 @@ void Graphics::CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring
 	m_animations.push_back(textures);
 }
 
-void Graphics::AddAnimationToRenderObject(int objectID, int animationID)
+void Graphics::AddAnimationToRenderObject(int objectID, int animationID, float frameTime)
 {
-	m_objectsToRender[objectID]->PushAnimationBack(m_animations[animationID]);
+	m_objectsToRender[objectID]->PushAnimationBack(m_animations[animationID],frameTime);
 }
 
-void Graphics::AddAnimationToRenderObject(RenderedObject* object, int animationID)
+void Graphics::AddAnimationToRenderObject(RenderedObject* object, int animationID, float frameTime)
 {
 	for (int i = 0; i < m_objectsToRender.size(); i++)
 	{
 		if (m_objectsToRender[i] == object)
 		{
-			m_objectsToRender[i]->PushAnimationBack(m_animations[animationID]);
+			m_objectsToRender[i]->PushAnimationBack(m_animations[animationID], frameTime);
 		}
 	}
 }

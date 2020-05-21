@@ -9,6 +9,7 @@
 #include "Graphics.h"
 #include "GameObject.h"
 #include <iostream>
+#include <string>
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
