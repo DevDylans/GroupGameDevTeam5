@@ -1,19 +1,21 @@
-﻿  LevelFile.cpp
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(4,21): error C2653: 'LevelFile': is not a class or namespace name
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(5,1): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(6,2): error C2065: 'string': undeclared identifier
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(6,9): error C2146: syntax error: missing ';' before identifier 'path'
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(6,9): error C2065: 'path': undeclared identifier
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(7,11): error C2065: 'path': undeclared identifier
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(8,12): error C2065: 'path': undeclared identifier
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(9,1): warning C4508: 'LevelFile': function should return a value; 'void' return type assumed
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(11,25): error C2653: 'LevelFile': is not a class or namespace name
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(11,26): error C2065: 'string': undeclared identifier
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(11,33): error C2146: syntax error: missing ')' before identifier 'path'
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(12,1): error C2143: syntax error: missing ';' before '{'
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(12,1): error C2447: '{': missing function header (old-style formal list?)
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(31,26): error C2653: 'LevelFile': is not a class or namespace name
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(31,27): error C2065: 'string': undeclared identifier
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(31,34): error C2146: syntax error: missing ')' before identifier 'path'
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(32,1): error C2143: syntax error: missing ';' before '{'
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(32,1): error C2447: '{': missing function header (old-style formal list?)
+﻿  Game.cpp
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
+  LevelFile.cpp
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(24,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(26,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(28,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(30,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(32,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(34,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(36,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(38,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,128): warning C4100: 'rotZ': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,116): warning C4100: 'rotY': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,104): warning C4100: 'rotX': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,90): warning C4100: 'scaleY': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,76): warning C4100: 'scaleX': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,64): warning C4100: 'posZ': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,52): warning C4100: 'posY': unreferenced formal parameter
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(64,40): warning C4100: 'posX': unreferenced formal parameter
+  Generating Code...
+  GroupGameDevTeam5.vcxproj -> C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\GroupGameDevTeam5.exe

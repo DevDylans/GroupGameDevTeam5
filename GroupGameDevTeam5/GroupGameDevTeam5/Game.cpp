@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "Game.h"
+#include "LevelFile.h"
 
 extern void ExitGame();
 
@@ -55,6 +56,8 @@ void Game::Update(DX::StepTimer const& timer)
     // TODO: Add your game logic here.
     elapsedTime;
     m_graphicsComponenet->Update(elapsedTime);
+
+    LevelFile();
 
 }
 #pragma endregion
