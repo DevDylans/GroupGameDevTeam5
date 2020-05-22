@@ -19,7 +19,6 @@ bool LevelFile::ReadFile(string path)
 		while (getline(levelFile, line))
 		{
 			stringstream ss(line);
-			getline(ss, m_GameObjectID, ',');
 			getline(ss, tempString, ',');
 			m_PosX = stoi(tempString);
 			getline(ss, tempString, ',');
@@ -36,6 +35,8 @@ bool LevelFile::ReadFile(string path)
 			m_RotY = stoi(tempString);
 			getline(ss, tempString, ',');
 			m_RotZ = stoi(tempString);
+
+			CreateGameObject();
 		}
 		levelFile.close();
 		return true;
@@ -61,7 +62,8 @@ bool LevelFile::WriteFile(string path)
 		return false;
 	}
 }
-void LevelFile::CreateGameObject(float posX, float posY, float posZ, float scaleX, float scaleY, float rotX, float rotY, float rotZ)
+void LevelFile::CreateGameObject()
 {
-	
+	GameObject* gameObject = new GameObject(m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ);
+	m_GameObjects.push_back(gameObject);
 }

@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-//#include "GameObject.h"
+#include "GameObject.h"
 
 using namespace std;
 
@@ -15,10 +15,12 @@ public:
 	bool ReadFile(string path);
 	bool WriteFile(string path);
 
-	void CreateGameObject(float posX, float posY, float posZ, float scaleX, float scaleY, float rotX, float rotY, float rotZ);
+	vector<GameObject*> GetGameObjects() {return m_GameObjects;}
 
 private:
 	//GameObject m_GameObject;
-	string m_GameObjectID;
 	float m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ;
+	vector<GameObject*> m_GameObjects;
+
+	void CreateGameObject();
 };

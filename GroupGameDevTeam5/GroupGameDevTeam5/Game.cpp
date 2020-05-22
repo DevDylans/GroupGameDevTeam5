@@ -4,7 +4,6 @@
 
 #include "pch.h"
 #include "Game.h"
-#include "LevelFile.h"
 
 extern void ExitGame();
 
@@ -57,7 +56,7 @@ void Game::Update(DX::StepTimer const& timer)
     elapsedTime;
     m_graphicsComponenet->Update(elapsedTime);
 
-    LevelFile();
+    //LevelFile();
 
 }
 #pragma endregion
@@ -80,7 +79,7 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
     //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
-    m_graphicsComponenet->DrawNoAnim(context,0,m_gameObjects);
+    m_graphicsComponenet->DrawNoAnim(context,0, m_LevelFile.GetGameObjects());
     //m_graphicsComponenet->DrawNoAnim(context, 0, m_gameObjects[0]);
 
     m_deviceResources->PIXEndEvent();
@@ -178,12 +177,19 @@ void Game::CreateWindowSizeDependentResources()
     // TODO: Initialize windows-size dependent objects here.
     m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), L"TestTexture.png");
     m_graphicsComponenet->CreateRenderObject(0, 0);
-    GameObject* obj = new GameObject(XMFLOAT3(200,100,5),XMFLOAT2(50,50));
+    /*GameObject* obj = new GameObject(XMFLOAT3(200,100,5),XMFLOAT2(50,50));
     obj->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
     m_gameObjects.push_back(obj);
     GameObject* objTwo = new GameObject(XMFLOAT3(400, 200, 5), XMFLOAT2(50, 50));
     objTwo->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
-    m_gameObjects.push_back(objTwo);
+    m_gameObjects.push_back(objTwo);*/
+
+    //m_gameObjects.insert(m_gameObjects.end, m_LevelFile.GetGameObjects().begin, m_LevelFile.GetGameObjects().end);
+
+    for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
+    {
+        m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    }
 }
 
 void Game::OnDeviceLost()

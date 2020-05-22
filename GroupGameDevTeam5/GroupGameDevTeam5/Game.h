@@ -8,6 +8,7 @@
 #include "StepTimer.h"
 #include "Graphics.h"
 #include "GameObject.h"
+#include "LevelFile.h"
 #include <iostream>
 
 // A basic game implementation that creates a D3D11 device and
@@ -58,4 +59,6 @@ private:
 
     // Gameplay Objects
     std::vector<GameObject*> m_gameObjects;
+
+    LevelFile m_LevelFile;
 };
