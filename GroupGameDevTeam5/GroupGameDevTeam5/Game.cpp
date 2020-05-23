@@ -27,7 +27,6 @@ void Game::Initialize(HWND window, int width, int height)
 
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
-
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*
@@ -55,6 +54,8 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
+    m_graphicsComponenet->Update(elapsedTime);
+
 }
 #pragma endregion
 
@@ -75,6 +76,9 @@ void Game::Render()
 
     // TODO: Add your rendering code here.
     context;
+    //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
+    m_graphicsComponenet->DrawNoAnim(context,0,m_gameObjects);
+    //m_graphicsComponenet->DrawNoAnim(context, 0, m_gameObjects[0]);
 
     m_deviceResources->PIXEndEvent();
 
@@ -161,12 +165,22 @@ void Game::CreateDeviceDependentResources()
 
     // TODO: Initialize device dependent objects here (independent of window size).
     device;
+
+    m_graphicsComponenet = new Graphics(device);
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
+    m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), L"TestTexture.png");
+    m_graphicsComponenet->CreateRenderObject(0, 0);
+    GameObject* obj = new GameObject(XMFLOAT3(200,100,5),XMFLOAT2(50,50));
+    obj->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    m_gameObjects.push_back(obj);
+    GameObject* objTwo = new GameObject(XMFLOAT3(400, 200, 5), XMFLOAT2(50, 50));
+    objTwo->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    m_gameObjects.push_back(objTwo);
 }
 
 void Game::OnDeviceLost()
