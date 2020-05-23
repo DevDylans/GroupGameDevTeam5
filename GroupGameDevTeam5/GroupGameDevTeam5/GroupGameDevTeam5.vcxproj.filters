@@ -17,6 +17,9 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{63e892fb-167c-4987-8208-e9c70595ae23}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collisions">
+      <UniqueIdentifier>{12358c90-332e-4124-9cc2-54944a998b7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StepTimer.h">
@@ -56,6 +59,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Collisions.h">
+      <Filter>Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">
@@ -92,6 +98,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Collisions.cpp">
+      <Filter>Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
