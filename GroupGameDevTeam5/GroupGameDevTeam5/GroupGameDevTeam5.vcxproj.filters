@@ -8,9 +8,6 @@
       <UniqueIdentifier>bfd201a2-7d9a-4ef4-b731-6d1c7455ec66</UniqueIdentifier>
       <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{4b4e19e8-69a4-4acc-85e1-706aff5fa3a2}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -21,9 +18,7 @@
     <ClInclude Include="DeviceResources.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
+    <ClInclude Include="Collision.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -32,9 +27,7 @@
     <ClCompile Include="DeviceResources.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
+    <ClCompile Include="Collision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
