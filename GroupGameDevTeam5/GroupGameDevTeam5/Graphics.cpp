@@ -56,6 +56,8 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	DX::ThrowIfFailed(device->CreateBlendState(&blendDesc, &m_blendState));
 
+	//setup ImGui
+
 }
 
 //call from inside gameloop
@@ -327,19 +329,77 @@ void Graphics::CreateAnimatedRenderObject(int quadID, int animationID , float fr
 	m_objectsToRender.push_back(obj);
 }
 
-void Graphics::CreateTexture(ID3D11Device* device, std::wstring texturePath)
+Texture* Graphics::GetSpecificTexture(int texID)
 {
-	Texture* tex = new Texture(device,texturePath);
-	m_textures.push_back(tex);
+	try {
+		m_textures.at(texID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return nullptr;
+	}
+	return m_textures[texID];
 }
-void Graphics::CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath)
+
+std::string Graphics::CreateTexture(ID3D11Device* device, std::wstring texturePath)
+{
+	Texture* tex = new Texture();
+	bool result;
+	result = tex->IntialiseTexture(device, texturePath);
+	if (result)
+	{
+		m_textures.push_back(tex);
+		int pos = m_textures.size() - 1;
+		char number[3];
+		sprintf(number, "%d", pos);
+		char success[26] = "Success saved to slot: ";
+		strcat(success, number);
+		return success;
+		//return "Success saved to slot: " + m_animations.size() - 1;
+	}
+	return "Failed to load";
+}
+
+std::string Graphics::CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath)
 {
 	std::vector<Texture*> textures;
 	for (int i = 0; i < texturePath.size(); i++)
 	{
-		textures.push_back(new Texture(device, texturePath[i]));
+		Texture* tex = new Texture();
+		bool result;
+		result = tex->IntialiseTexture(device, texturePath[i]);
+		if (result)
+		{
+			textures.push_back(tex);
+		}
+		else
+		{
+			textures.clear();
+			return "Failed to load";
+		}
 	}
 	m_animations.push_back(textures);
+	int pos = m_animations.size() - 1;
+	char number[3];
+	sprintf(number, "%d", pos);
+	char success[255] = "Success saved to slot: ";
+	strcat(success, number);
+	return success;
+	//return "Success saved to slot: " + m_animations.size() - 1;
+}
+
+std::string Graphics::DeleteTexture(int texID)
+{
+	try {
+		m_textures.at(texID);
+	}
+	catch (const std::out_of_range& e)
+	{
+		return "Outside vector range unable to delete";
+	}
+	delete(m_textures[texID]);
+	m_textures.erase(m_textures.begin() + texID);
+	return "Successfully removed texture";
 }
 
 void Graphics::AddAnimationToRenderObject(int objectID, int animationID, float frameTime)

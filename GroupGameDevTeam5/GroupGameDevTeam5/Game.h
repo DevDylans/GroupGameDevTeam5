@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include <iostream>
 #include <string>
+#include "UserInterface.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -57,6 +58,8 @@ private:
     // Rendering loop timer.
     DX::StepTimer                           m_timer;
 
+    //UI
+    UserInterface* m_UI = nullptr;
     // Gameplay Objects
     std::vector<GameObject*> m_gameObjects;
 };

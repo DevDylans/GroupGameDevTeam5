@@ -37,8 +37,11 @@ public:
 
 	void CreateRenderObject(int quadID, int textureID);
 	void CreateAnimatedRenderObject(int quadID, int animationID, float frameTime);
-	void CreateTexture(ID3D11Device* device, std::wstring texturePath);
-	void CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath);
+
+	Texture* GetSpecificTexture(int texID);
+	std::string CreateTexture(ID3D11Device* device, std::wstring texturePath);
+	std::string CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath);
+	std::string DeleteTexture(int texID);
 
 	void AddAnimationToRenderObject(int objectID, int animationID, float frameTime);
 	void AddAnimationToRenderObject(RenderedObject* object, int animationID, float frameTime);
