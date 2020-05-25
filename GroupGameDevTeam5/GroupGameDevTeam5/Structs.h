@@ -10,3 +10,19 @@ struct ConstantBuffer2D {
 	DirectX::XMMATRIX view;
 	DirectX::XMMATRIX proj;
 };
+
+struct BoxEntents
+{
+	float x;
+	float y;
+	float width;
+	float height;
+
+	BoxEntents(float BoxX, float BoxY, float BoxWidth, float BoxHeight)
+	{
+		x = BoxX;
+		y = BoxY;
+		width = BoxWidth;
+		height = BoxHeight;
+	}
+};

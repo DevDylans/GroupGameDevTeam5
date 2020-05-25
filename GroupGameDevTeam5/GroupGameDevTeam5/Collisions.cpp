@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Collisions.h"
 
 Collision* Collision::cInstance = NULL;
@@ -32,8 +33,8 @@ bool Collision::Circle(GameObject * Object1, GameObject * Object2)
 
 bool Collision::Box(BoxEntents collision1, BoxEntents collision2)
 {
-	if (collision1.bottom + (collision1.width / 2) > collision2.bottom && collision1.bottom + (collision1.width / 2) < collision2.bottom + collision2.width &&
-		collision1.top + (collision1.height / 2) > collision2.top && collision1.top + (collision1.height / 2) < collision2.top + collision2.height)
+	if (collision1.x + (collision1.width / 2) > collision2.x && collision1.x + (collision1.width / 2) < collision2.x + collision2.width &&
+		collision1.y + (collision1.height / 2) > collision2.y && collision1.y + (collision1.height / 2) < collision2.y + collision2.height)
 	{
 		return true;
 	}
