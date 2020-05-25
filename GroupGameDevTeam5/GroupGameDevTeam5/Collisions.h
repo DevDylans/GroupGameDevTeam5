@@ -1,6 +1,6 @@
 #pragma once
-#pragma once
 #include "pch.h"
+#include "GameObject.h"
 #include <DirectXCollision.h>
 
 using namespace DirectX;
@@ -28,9 +28,7 @@ public:
 	~Collision();
 	static Collision* Instance();
 
-	float collisionRadius;
-
-	bool Circle(XMVECTOR character1, XMVECTOR character2);
+	bool Circle(GameObject* Object1, GameObject* Object2);
 	bool Box(BoxEntents collision1, BoxEntents collision2);
 
 private:

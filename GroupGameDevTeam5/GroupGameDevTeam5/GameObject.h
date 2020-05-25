@@ -1,6 +1,7 @@
 #pragma once
 using namespace DirectX;
 #include "RenderedObject.h"
+#include "Collisions.h"
 
 class GameObject
 {
@@ -23,6 +24,12 @@ public:
 	void SetRotation(float x, float y, float z);
 	void Rotate(float x, float y, float z);
 	void Rotate(DirectX::XMVECTOR& pos);
+
+	float GetCollisionRadius();
+	BoxEntents GetCollisionBox();
+	XMFLOAT3 GetPosition();
+
+	int m_collisionRadius = 15;
 
 private:
 	XMFLOAT2 m_scale;

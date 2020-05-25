@@ -1,10 +1,10 @@
-#include "Collision.h"
+#include "Collisions.h"
 
 Collision* Collision::cInstance = NULL;
 
 Collision::Collision()
 {
-	collisionRadius = 15;
+	
 }
 
 Collision::~Collision()
@@ -21,11 +21,11 @@ Collision* Collision::Instance()
 	return cInstance;
 }
 
-bool Collision::Circle(XMVECTOR position1, XMVECTOR position2)
+bool Collision::Circle(GameObject * Object1, GameObject * Object2)
 {
-	XMVECTOR vec = XMVECTOR(position1 - position2)(position1 - position2);
-	double distance = sqrt((vec.x*vec.x) + (vec.y*vec.y));
-	double combinedDistance = (collisionRadius + collisionRadius);
+	XMFLOAT3 location = XMFLOAT3((Object1->GetPosition().x - Object1->GetPosition().x),(Object1->GetPosition().y - Object2->GetPosition().y), 0.0f);
+	double distance = sqrt((location.x*location.x) + (location.y*location.y));
+	double combinedDistance = (Object1->GetCollisionRadius() + Object2->GetCollisionRadius());
 
 	return distance < combinedDistance;
 }
