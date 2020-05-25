@@ -77,9 +77,8 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
     //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
-    m_graphicsComponenet->DrawNoAnim(context,0,m_gameObjects[0]);
-    m_graphicsComponenet->DrawAnimation(context, 0, m_gameObjects[1]);
-    m_UI->Draw(m_deviceResources->GetD3DDevice());
+    m_graphicsComponenet->Draw(context,0,m_gameObjects);
+    m_UI->Draw(m_deviceResources->GetD3DDevice(),m_gameObjects);
 
     m_deviceResources->PIXEndEvent();
 
@@ -153,8 +152,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 void Game::GetDefaultSize(int& width, int& height) const
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    width = 800;
-    height = 600;
+    width = 1600;
+    height = 900;
 }
 #pragma endregion
 

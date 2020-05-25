@@ -7,10 +7,10 @@ RenderedObject::RenderedObject(Quad& quad, Texture& texture )
 	std::vector<ID3D11ShaderResourceView*> base;
 	base.push_back(texture.GetTexture());
 	m_textures.push_back(base);
+	m_frameTimes.push_back(0);
 }
 RenderedObject::RenderedObject(Quad& quad, std::vector<Texture*> animation,float frameTime)
 {
-	m_animated = true;
 	m_frameTimes.push_back(frameTime);
 	m_renderQuad = &quad;
 	std::vector<ID3D11ShaderResourceView*> base;
@@ -46,7 +46,6 @@ void RenderedObject::UpdateMatrix(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 
 
 void RenderedObject::PushAnimationBack(std::vector<Texture*> animation, float frameTime)
 {
-	m_animated = true;
 	m_frameTimes.push_back(frameTime);
 	std::vector<ID3D11ShaderResourceView*> base;
 	for (int i = 0; i < animation.size(); i++)
@@ -56,9 +55,23 @@ void RenderedObject::PushAnimationBack(std::vector<Texture*> animation, float fr
 	m_textures.push_back(base);
 }
 
-void RenderedObject::SetCurrentAnimation(int id)
+void RenderedObject::RemoveAnimation(int animID)
 {
+	m_textures.erase(m_textures.begin() + animID);
+	m_frameTimes.erase(m_frameTimes.begin() + animID);
+}
+
+std::string RenderedObject::SetCurrentAnimation(int id)
+{
+	try {
+		m_textures.at(id);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Outside internal animation vector";
+	}
 	m_currentAnimation = id;
 	m_frame = 0;
 	m_animTimer = 0;
+	return "Successful change animation";
 }

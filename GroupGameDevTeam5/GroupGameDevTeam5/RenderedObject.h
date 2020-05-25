@@ -18,9 +18,9 @@ public:
 	void AnimationUpdate(float time);
 	void UpdateMatrix(DirectX::XMFLOAT3 position, DirectX::XMFLOAT2 scale, DirectX::XMFLOAT3 rotation);
 	void PushAnimationBack(std::vector<Texture*> animation,float frameTime);
-	void SetCurrentAnimation(int id);
-
-	bool m_animated = false;
+	void RemoveAnimation(int animID);
+	std::string SetCurrentAnimation(int id);
+	std::vector<std::vector<ID3D11ShaderResourceView*>> GetAnimations() { return m_textures; }
 private:
 	DirectX::XMMATRIX m_worldMatrix = DirectX::XMMatrixIdentity();
 	std::vector<std::vector<ID3D11ShaderResourceView*>> m_textures;
