@@ -26,6 +26,8 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	m_camera->SetPosition(0, 0, 0);
 	m_camera->SetProjectionValues(1600, 900, 0.1, 50);
 
+	CreateTexture(device, L"Transparent.png");
+	CreateRenderObject(0, 0);
 
 	CD3D11_RASTERIZER_DESC rastDesc(D3D11_DEFAULT);
 	//rastDesc.CullMode = D3D11_CULL_NONE;

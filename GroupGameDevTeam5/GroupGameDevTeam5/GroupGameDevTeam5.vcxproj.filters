@@ -43,7 +43,6 @@
     <ClInclude Include="pch.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Camera.h">
       <Filter>Headers\Renderer</Filter>
     </ClInclude>
@@ -92,7 +91,12 @@
     <ClInclude Include="ImGui\imstb_truetype.h">
       <Filter>Headers\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="UserInterface.h" />
+    <ClInclude Include="GameObject.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">
@@ -107,7 +111,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Camera.cpp">
       <Filter>Source\Renderer</Filter>
     </ClCompile>
@@ -144,7 +147,12 @@
     <ClCompile Include="ImGui\imgui_widgets.cpp">
       <Filter>Source\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="UserInterface.cpp" />
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

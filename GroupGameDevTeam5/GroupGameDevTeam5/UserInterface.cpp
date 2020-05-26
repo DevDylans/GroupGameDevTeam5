@@ -333,7 +333,11 @@ void UserInterface::GameObjectInterface(ID3D11Device* device, std::vector<GameOb
         }
     }
     ImGui::Text(sm_resultMoveObject.c_str());
-
+    if(ImGui::Button("Remove Selected GameObject") && sm_editingEnabled)
+    {
+        gameObjects.erase(gameObjects.begin() + sm_editingGameObject);
+        sm_editingEnabled = false;
+    }
     ImGui::Text("");     ImGui::Text("");     ImGui::Text("");
     ImGui::InputText("SaveFile",sm_saveFile,255);
     if (ImGui::Button("SAVE"))
