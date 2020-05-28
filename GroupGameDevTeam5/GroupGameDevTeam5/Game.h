@@ -6,12 +6,16 @@
 
 #include "DeviceResources.h"
 #include "StepTimer.h"
+
 #include "Graphics.h"
 #include "GameObject.h"
 #include "LevelFile.h"
 #include <iostream>
 #include <string>
 #include "UserInterface.h"
+
+#include "sound.h" 
+#include "Audio.h"
 
 // A basic game implementation that creates a D3D11 device and
 // provides a game loop.
@@ -20,7 +24,7 @@ class Game final : public DX::IDeviceNotify
 public:
 
     Game() noexcept(false);
-
+    ~Game();
     // Initialization and management
     void Initialize(HWND window, int width, int height);
 
@@ -65,4 +69,7 @@ private:
     std::vector<GameObject*> m_gameObjects;
 
     LevelFile m_LevelFile;
+    bool time = true;
+
+    Sound * m_sound;
 };

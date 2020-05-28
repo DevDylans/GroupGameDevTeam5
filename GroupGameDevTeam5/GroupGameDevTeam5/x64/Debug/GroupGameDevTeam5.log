@@ -1,0 +1,16 @@
+﻿  Game.cpp
+  class template variant is only available with C++17 or later.
+  Main.cpp
+  class template variant is only available with C++17 or later.
+  Sound.cpp
+  class template variant is only available with C++17 or later.
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(84,38): warning C4100: 'id': unreferenced formal parameter
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(104,13): error C2039: 'SetVolume': is not a member of 'Sound'
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.h(5): message : see declaration of 'Sound'
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(106,5): error C2065: 'm_soundVector': undeclared identifier
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(109,13): error C2039: 'SetPan': is not a member of 'Sound'
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.h(5): message : see declaration of 'Sound'
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(111,5): error C2065: 'm_soundVector': undeclared identifier
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(112,5): error C2065: 'm_soundVector': undeclared identifier
+C:\Users\philip\Desktop\unistuff y3\studioSim\GroupGameDevTeam5-master\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(113,1): error C2059: syntax error: '}'
+  Generating Code...

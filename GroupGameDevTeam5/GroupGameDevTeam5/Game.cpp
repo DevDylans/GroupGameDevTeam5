@@ -17,6 +17,11 @@ Game::Game() noexcept(false)
     m_deviceResources->RegisterDeviceNotify(this);
 }
 
+Game::~Game()
+{
+
+}
+
 // Initialize the Direct3D resources required to run.
 void Game::Initialize(HWND window, int width, int height)
 {
@@ -36,6 +41,9 @@ void Game::Initialize(HWND window, int width, int height)
     m_timer.SetFixedTimeStep(true);
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
     */
+
+    m_sound = new Sound();
+    m_sound->Load(L"death.wav",0);
 }
 
 #pragma region Frame Update
@@ -126,6 +134,7 @@ void Game::OnDeactivated()
 void Game::OnSuspending()
 {
     // TODO: Game is being power-suspended (or minimized).
+    m_sound->OnSuspending();
 }
 
 void Game::OnResuming()
@@ -133,6 +142,7 @@ void Game::OnResuming()
     m_timer.ResetElapsedTime();
 
     // TODO: Game is being power-resumed (or returning from minimize).
+    m_sound->OnResuming();
 }
 
 void Game::OnWindowMoved()
