@@ -6,6 +6,9 @@
 
 #include "DeviceResources.h"
 #include "StepTimer.h"
+#include "sound.h" 
+#include "Audio.h"
+
 
 
 // A basic game implementation that creates a D3D11 device and
@@ -15,7 +18,7 @@ class Game final : public DX::IDeviceNotify
 public:
 
     Game() noexcept(false);
-
+    ~Game();
     // Initialization and management
     void Initialize(HWND window, int width, int height);
 
@@ -52,4 +55,8 @@ private:
 
     // Rendering loop timer.
     DX::StepTimer                           m_timer;
+
+    bool time = true;
+
+    Sound * m_sound;
 };
