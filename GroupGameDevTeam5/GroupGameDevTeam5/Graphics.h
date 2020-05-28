@@ -19,10 +19,6 @@ public:
 	void Update(float time);
 	void ChangeCameraProjection(float, float, float, float);
 
-	VertexShader* GetDefaultVertexShader() const { return m_vertexShaders[0]; }
-	PixelShader* GetDefaultPixelShader() const { return m_pixelShaders[0]; }
-	Quad* GetDefaultQuadType() const { return m_quadTypes[0]; }
-
 	VertexShader* GetSpecificVertexShader(int id) const { return m_vertexShaders[id]; }
 	PixelShader* GetSpecificPixelShader(int id) const { return m_pixelShaders[id]; }
 	Quad* GetSpecificQuadType(int id) const { return m_quadTypes[id]; }
