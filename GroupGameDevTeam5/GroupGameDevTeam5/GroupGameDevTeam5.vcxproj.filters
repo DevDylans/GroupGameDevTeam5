@@ -97,6 +97,9 @@
     <ClInclude Include="UserInterface.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="LevelFile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">
@@ -151,6 +154,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelFile.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

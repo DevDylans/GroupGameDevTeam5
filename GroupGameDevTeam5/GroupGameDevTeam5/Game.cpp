@@ -27,6 +27,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     m_deviceResources->CreateWindowSizeDependentResources();
     CreateWindowSizeDependentResources();
+    m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet);
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*
@@ -79,9 +80,9 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
     //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
-    m_graphicsComponenet->DrawNoAnim(context,0, m_LevelFile.GetGameObjects());
-    //m_graphicsComponenet->DrawNoAnim(context, 0, m_gameObjects[0]);
-
+   
+    m_graphicsComponenet->Draw(context,0, m_LevelFile.GetGameObjects());
+    m_UI->Draw(m_deviceResources->GetD3DDevice(), m_gameObjects);
     m_deviceResources->PIXEndEvent();
 
     // Show the new frame.
@@ -154,8 +155,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 void Game::GetDefaultSize(int& width, int& height) const
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    width = 800;
-    height = 600;
+    width = 1600;
+    height = 900;
 }
 #pragma endregion
 
@@ -175,16 +176,6 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
-    m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), L"TestTexture.png");
-    m_graphicsComponenet->CreateRenderObject(0, 0);
-    /*GameObject* obj = new GameObject(XMFLOAT3(200,100,5),XMFLOAT2(50,50));
-    obj->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
-    m_gameObjects.push_back(obj);
-    GameObject* objTwo = new GameObject(XMFLOAT3(400, 200, 5), XMFLOAT2(50, 50));
-    objTwo->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
-    m_gameObjects.push_back(objTwo);*/
-
-    //m_gameObjects.insert(m_gameObjects.end, m_LevelFile.GetGameObjects().begin, m_LevelFile.GetGameObjects().end);
 
     for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
     {
