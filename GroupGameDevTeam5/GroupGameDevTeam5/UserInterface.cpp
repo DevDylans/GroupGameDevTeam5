@@ -302,11 +302,11 @@ void UserInterface::GameObjectInterface(ID3D11Device* device, std::vector<GameOb
             sm_editingEnabled = true;
             sm_editingGameObject = sm_selectedGameObject;
             sm_resultMoveObject = "Object " + std::to_string(sm_editingGameObject) + " selected" ;
-            DirectX::XMFLOAT3 pos = gameObjects[sm_editingGameObject]->GetPosition();
+            DirectX::XMFLOAT3 pos = gameObjects[sm_editingGameObject]->GetTransform().GetPosition();
             sm_currentPosition[0] = pos.x; sm_currentPosition[1] = pos.y; sm_currentPosition[2] = pos.z;
-            DirectX::XMFLOAT2 scale = gameObjects[sm_editingGameObject]->GetScale();
+            DirectX::XMFLOAT2 scale = gameObjects[sm_editingGameObject]->GetTransform().GetScale();
             sm_currentScale[0] = scale.x; sm_currentScale[1] = scale.y;
-            DirectX::XMFLOAT3 rot = gameObjects[sm_editingGameObject]->GetRotation();
+            DirectX::XMFLOAT3 rot = gameObjects[sm_editingGameObject]->GetTransform().GetRotation();
             sm_currentRotation[0] = rot.x; sm_currentRotation[1] = rot.y; sm_currentRotation[2] = rot.z;
         }
     }

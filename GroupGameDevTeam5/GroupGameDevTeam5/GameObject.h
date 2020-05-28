@@ -1,6 +1,9 @@
 #pragma once
 using namespace DirectX;
 #include "RenderedObject.h"
+#include <Structs.h>
+#include "ParticleModel.h"
+#include "Collisions.h"
 
 class GameObject
 {
@@ -14,7 +17,7 @@ public:
 
 	void SetRenderObject(RenderedObject* object);
 	RenderedObject* GetRenderObject() { return m_render; }
-	void UpdateRenderMatrix() { m_render->UpdateMatrix(m_position, m_scale, m_rotation); }
+	void UpdateRenderMatrix() { m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation()); }
 
 	void SetScale(float x, float y);
 	void SetPosition(float x, float y, float z);
@@ -24,16 +27,21 @@ public:
 	void Rotate(float x, float y, float z);
 	void Rotate(DirectX::XMVECTOR& pos);
 
-	XMFLOAT3 GetPosition() { return m_position; }
-	XMFLOAT2 GetScale() { return m_scale; }
-	XMFLOAT3 GetRotation() { return m_rotation; }
+	//void SetPhysicsComponent(ParticleModel* physicsModel) { physicsModel->SetTransform(&_objTransform); _particleModel = physicsModel; }
+
+	void Update(float deltaTime);
+
+	float GetCollisionRadius();
+	BoxEntents GetCollisionBox();
+
+	Transform GetTransform() { return _objTransform; }
 private:
-	XMFLOAT2 m_scale;
-	XMFLOAT3 m_rotation;
-	XMFLOAT3 m_position;
 	XMVECTOR m_positionVector;
 	XMVECTOR m_rotationVector;
 
+	Transform _objTransform;
 	RenderedObject* m_render = nullptr;
+	ParticleModel* _particleModel = nullptr;
+	float m_collisionRadius = 15;
 };
 

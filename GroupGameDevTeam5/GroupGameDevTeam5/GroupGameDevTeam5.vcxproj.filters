@@ -58,9 +58,6 @@
     <ClInclude Include="Shaders.h">
       <Filter>Headers\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Structs.h">
-      <Filter>Headers\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Texture.h">
       <Filter>Headers\Renderer</Filter>
     </ClInclude>
@@ -98,6 +95,16 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="LevelFile.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions.h" />
+    <ClInclude Include="ParticleModel.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -157,6 +164,13 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="LevelFile.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions.cpp" />
+    <ClCompile Include="ParticleModel.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>

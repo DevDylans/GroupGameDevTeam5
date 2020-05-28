@@ -24,7 +24,7 @@ Collision* Collision::Instance()
 
 bool Collision::Circle(GameObject * Object1, GameObject * Object2)
 {
-	XMFLOAT3 location = XMFLOAT3((Object1->GetPosition().x - Object1->GetPosition().x),(Object1->GetPosition().y - Object2->GetPosition().y), 0.0f);
+	XMFLOAT3 location = XMFLOAT3((Object1->GetTransform().GetPosition().x - Object1->GetTransform().GetPosition().x),(Object1->GetTransform().GetPosition().y - Object2->GetTransform().GetPosition().y), 0.0f);
 	double distance = sqrt((location.x*location.x) + (location.y*location.y));
 	double combinedDistance = (Object1->GetCollisionRadius() + Object2->GetCollisionRadius());
 

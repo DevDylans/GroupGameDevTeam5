@@ -7,8 +7,6 @@
 using namespace DirectX;
 class GameObject;
 
-
-
 class Collision
 {
 public:

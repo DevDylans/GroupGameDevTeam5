@@ -6,6 +6,7 @@ using namespace DirectX;
 class Transform
 {
 public:
+	Transform();
 	Transform(XMFLOAT3 position, XMFLOAT3 rotation, XMFLOAT2 scale);
 	~Transform();
 

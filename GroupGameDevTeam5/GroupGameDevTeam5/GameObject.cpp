@@ -3,126 +3,150 @@
 
 GameObject::GameObject(float posX, float posY, float posZ)
 {
-	SetScale(10, 10);
-	SetPosition(posX, posY, posZ);
-	SetRotation(0, 0, 0);
+	XMFLOAT3 pos = XMFLOAT3(posX, posY, posZ);
+	XMFLOAT3 rot = XMFLOAT3(0, 0, 0);
+	XMFLOAT2 scale = XMFLOAT2(10, 10);
+
+	_objTransform = Transform(pos, rot, scale);
+	m_positionVector = XMLoadFloat3(&pos);
+	m_rotationVector = XMLoadFloat3(&rot);
 }
 
 GameObject::GameObject(XMFLOAT3 pos)
 {
-	SetScale(10, 10);
-	SetPosition(pos.x, pos.y, pos.z);
-	SetRotation(0, 0, 0);
+	XMFLOAT3 rot = XMFLOAT3(0, 0, 0);
+	XMFLOAT2 scale = XMFLOAT2(10, 10);
+
+	_objTransform = Transform(pos, rot, scale);
+	m_positionVector = XMLoadFloat3(&pos);
+	m_rotationVector = XMLoadFloat3(&rot);
 }
 
 GameObject::GameObject(float posX, float posY, float posZ, float scaleX, float scaleY)
 {
-	SetScale(scaleX, scaleY);
-	SetPosition(posX, posY, posZ);
-	SetRotation(0, 0, 0);
+	XMFLOAT3 pos = XMFLOAT3(posX, posY, posZ);
+	XMFLOAT3 rot = XMFLOAT3(0, 0, 0);
+	XMFLOAT2 scale = XMFLOAT2(scaleX, scaleY);
+
+	_objTransform = Transform(pos, rot, scale);
+	m_positionVector = XMLoadFloat3(&pos);
+	m_rotationVector = XMLoadFloat3(&rot);
 }
 
 GameObject::GameObject(XMFLOAT3 pos, XMFLOAT2 scale)
 {
-	SetScale(scale.x, scale.y);
-	SetPosition(pos.x, pos.y, pos.z);
-	SetRotation(0, 0, 0);
+	XMFLOAT3 rot = XMFLOAT3(0, 0, 0);
+
+	_objTransform = Transform(pos, rot, scale);
+	m_positionVector = XMLoadFloat3(&pos);
+	m_rotationVector = XMLoadFloat3(&rot);
 }
 
 GameObject::GameObject(float posX, float posY, float posZ, float scaleX, float scaleY, float rotX, float rotY, float rotZ)
 {
-	SetScale(scaleX, scaleY);
-	SetPosition(posX, posY, posZ);
-	SetRotation(rotX, rotY, rotZ);
+	XMFLOAT3 pos = XMFLOAT3(posX, posY, posZ);
+	XMFLOAT3 rot = XMFLOAT3(rotX, rotY, rotZ);
+	XMFLOAT2 scale = XMFLOAT2(scaleX, scaleY);
+
+	_objTransform = Transform(pos, rot, scale);
+	m_positionVector = XMLoadFloat3(&pos);
+	m_rotationVector = XMLoadFloat3(&rot);
 }
 
 GameObject::GameObject(XMFLOAT3 pos, XMFLOAT2 scale, XMFLOAT3 rotation)
 {
-	SetScale(scale.x, scale.y);
-	SetPosition(pos.x, pos.y, pos.z);
-	SetRotation(rotation.x, rotation.y, rotation.z);
+	_objTransform = Transform(pos, rotation, scale);
+	m_positionVector = XMLoadFloat3(&pos);
+	m_rotationVector = XMLoadFloat3(&rotation);
 }
 
 void GameObject::SetRenderObject(RenderedObject* object)
 {
 	m_render = object;
-	m_render->UpdateMatrix(m_position, m_scale, m_rotation);
+	m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 }
 
 void GameObject::SetScale(float x, float y)
 {
-	m_scale.x = x;
-	m_scale.y = y;
+	XMFLOAT2 scale = XMFLOAT2(x, y);
+	_objTransform.SetScale(scale);
+
 	if (m_render != nullptr)
 	{
-		m_render->UpdateMatrix(m_position,m_scale,m_rotation);
+		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
 
 void GameObject::SetPosition(float x, float y, float z)
 {
-	m_position = DirectX::XMFLOAT3(x, y, z);
-	m_positionVector = DirectX::XMLoadFloat3(&m_position);
+	XMFLOAT3 _newPos = XMFLOAT3(x, y, z);
+	_objTransform.SetPosition(_newPos);
+
+	m_positionVector = XMLoadFloat3(&_newPos);
 	if (m_render != nullptr)
 	{
-		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
+		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
 void GameObject::MovePosition(float x, float y, float z)
 {
-	m_position.x += x;
-	m_position.y += y;
-	m_position.z += z;
-	m_positionVector = DirectX::XMLoadFloat3(&m_position);
+	XMFLOAT3 _currPos = _objTransform.GetPosition();
+	_currPos.x += x;
+	_currPos.y += y;
+	_currPos.z += z;
+	_objTransform.SetPosition(_currPos);
+
+	m_positionVector = DirectX::XMLoadFloat3(&_currPos);
 	if (m_render != nullptr)
 	{
-		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
+		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
 void GameObject::MovePosition(const DirectX::XMVECTOR& pos)
 {
-	DirectX::XMVectorAdd(m_positionVector, pos);
-	DirectX::XMStoreFloat3(&m_position, m_positionVector);
-	if (m_render != nullptr)
-	{
-		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
-	}
+	XMFLOAT3 position;
+	XMStoreFloat3(&position, pos);
+	MovePosition(position.x, position.y, position.z);
 }
 void GameObject::SetRotation(float x, float y, float z)
 {
-	m_rotation = DirectX::XMFLOAT3(x, y, z);
-	m_rotationVector = DirectX::XMLoadFloat3(&m_rotation);
+	XMFLOAT3 _newRot = XMFLOAT3(x, y, z);
+	_objTransform.SetRotation(_newRot);
+
+	m_rotationVector = XMLoadFloat3(&_newRot);
 	if (m_render != nullptr)
 	{
-		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
+		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
 void GameObject::Rotate(float x, float y, float z)
 {
-	m_rotation.x += x;
-	m_rotation.y += y;
-	m_rotation.z += z;
-	m_rotationVector = DirectX::XMLoadFloat3(&m_rotation);
+	XMFLOAT3 _currRot = _objTransform.GetRotation();
+	_currRot.x += x;
+	_currRot.y += y;
+	_currRot.z += z;
+	_objTransform.SetRotation(_currRot);
+
+	m_rotationVector = DirectX::XMLoadFloat3(&_currRot);
 	if (m_render != nullptr)
 	{
-		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
+		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
 void GameObject::Rotate(DirectX::XMVECTOR& rot)
 {
-	DirectX::XMVectorAdd(m_rotationVector, rot);
-	DirectX::XMStoreFloat3(&m_rotation, m_rotationVector);
-	if (m_render != nullptr)
+	XMFLOAT3 rotation;
+	XMStoreFloat3(&rotation, rot);
+	Rotate(rotation.x, rotation.y, rotation.z);
+}
+
+void GameObject::Update(float deltaTime)
+{
+	if (_particleModel != nullptr)
 	{
-		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
+		_particleModel->Update(deltaTime);
 	}
 }
-
-XMFLOAT3 GameObject::GetPosition()
-{
-	return m_position;
-}
-
 float GameObject::GetCollisionRadius()
 {
 	return m_collisionRadius;
@@ -130,5 +154,5 @@ float GameObject::GetCollisionRadius()
 
 BoxEntents GameObject::GetCollisionBox()
 {
-	return BoxEntents(m_position.x, m_position.y, m_scale.x, m_scale.y);
+	return BoxEntents(_objTransform.GetPosition().x, _objTransform.GetPosition().y, _objTransform.GetScale().x, _objTransform.GetScale().y);
 }

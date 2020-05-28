@@ -26,8 +26,10 @@ void Game::Initialize(HWND window, int width, int height)
     CreateDeviceDependentResources();
 
     m_deviceResources->CreateWindowSizeDependentResources();
+    m_LevelFile = LevelFile();
     CreateWindowSizeDependentResources();
     m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet);
+
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
     /*
@@ -57,8 +59,6 @@ void Game::Update(DX::StepTimer const& timer)
     elapsedTime;
     m_graphicsComponenet->Update(elapsedTime);
 
-    //LevelFile();
-
 }
 #pragma endregion
 
@@ -82,7 +82,7 @@ void Game::Render()
     //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
    
     m_graphicsComponenet->Draw(context,0, m_LevelFile.GetGameObjects());
-    m_UI->Draw(m_deviceResources->GetD3DDevice(), m_gameObjects);
+    m_UI->Draw(m_deviceResources->GetD3DDevice(), m_LevelFile.GetGameObjects());
     m_deviceResources->PIXEndEvent();
 
     // Show the new frame.
