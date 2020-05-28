@@ -23,8 +23,11 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	Quad* newQuad = new TexturedQuad(device);
 	m_quadTypes.push_back(newQuad);
 	m_camera = new Camera();
-	m_camera->SetProjectionValues(800, 600, 0.1, 50);
+	m_camera->SetPosition(0, 0, 0);
+	m_camera->SetProjectionValues(1600, 900, 0.1, 50);
 
+	CreateTexture(device, L"Transparent.png");
+	CreateRenderObject(0, 0);
 
 	CD3D11_RASTERIZER_DESC rastDesc(D3D11_DEFAULT);
 	//rastDesc.CullMode = D3D11_CULL_NONE;
@@ -55,10 +58,43 @@ void Graphics::DefaultIntialize(ID3D11Device* device)
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	DX::ThrowIfFailed(device->CreateBlendState(&blendDesc, &m_blendState));
 
+	//setup ImGui
+
 }
 
 //call from inside gameloop
-void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects)
+void Graphics::Draw(ID3D11DeviceContext* context, int shaderID, GameObject* object)
+{
+	UINT stride = sizeof(TexturedVertex);
+	UINT offset = 0;
+	ConstantBuffer2D cb;
+
+	context->OMSetBlendState(m_blendState, nullptr, 0xffffffff);
+	context->IASetInputLayout(m_vertexShaders[shaderID]->GetInputLayout());
+	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->RSSetState(m_rasterizerState.Get());
+	context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
+	context->VSSetShader(m_vertexShaders[shaderID]->GetShader(), NULL, 0);
+	context->PSSetShader(m_pixelShaders[shaderID]->GetShader(), NULL, 0);
+
+	cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
+	cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
+
+	ID3D11Buffer* vb = object->GetRenderObject()->GetQuad()->GetVertexBuffer();
+	context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
+	context->IASetIndexBuffer(object->GetRenderObject()->GetQuad()->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+	int frame = object->GetRenderObject()->GetCurrentFrame();
+	int anim = object->GetRenderObject()->GetCurrentAnimation();
+	ID3D11ShaderResourceView* currentTex = object->GetRenderObject()->GetTexture(anim, frame);
+	context->PSSetShaderResources(0, 1, &currentTex);
+	object->UpdateRenderMatrix();
+	cb.world = XMMatrixTranspose(object->GetRenderObject()->GetWorldMatrix());
+	context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
+	context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+	context->DrawIndexed(6, 0, 0);
+}
+
+void Graphics::Draw(ID3D11DeviceContext* context, int shaderID, std::vector<GameObject*> objects)
 {
 	UINT stride = sizeof(TexturedVertex);
 	UINT offset = 0;
@@ -79,57 +115,30 @@ void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, std::vecto
 	int size = objects.size();
 	for (int i = 0; i < size; i++)
 	{
-		if (objects[i]->GetRenderObject() != currentRenderObj)
+		if (objects[i]->GetRenderObject() != nullptr)
 		{
-			currentRenderObj = objects[i]->GetRenderObject();
-			if (currentQuad != currentRenderObj->GetQuad())
+			if (objects[i]->GetRenderObject() != currentRenderObj)
 			{
-				currentQuad = currentRenderObj->GetQuad();
-				ID3D11Buffer* vb = currentQuad->GetVertexBuffer();
-				context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
-				context->IASetIndexBuffer(currentQuad->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+				currentRenderObj = objects[i]->GetRenderObject();
+				if (currentQuad != currentRenderObj->GetQuad())
+				{
+					currentQuad = currentRenderObj->GetQuad();
+					ID3D11Buffer* vb = currentQuad->GetVertexBuffer();
+					context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
+					context->IASetIndexBuffer(currentQuad->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
+				}
 			}
-			if (currentTex != currentRenderObj->GetTexture(0,0))
-			{
-				currentTex = currentRenderObj->GetTexture(0,0);
-				context->PSSetShaderResources(0, 1, &currentTex);
-			}
+			int anim = objects[i]->GetRenderObject()->GetCurrentAnimation();
+			int frame = objects[i]->GetRenderObject()->GetCurrentFrame();
+			currentTex = currentRenderObj->GetTexture(anim, frame);
+			context->PSSetShaderResources(0, 1, &currentTex);
+			objects[i]->UpdateRenderMatrix();
+			cb.world = XMMatrixTranspose(objects[i]->GetRenderObject()->GetWorldMatrix());
+			context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
+			context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
+			context->DrawIndexed(6, 0, 0);
 		}
-		objects[i]->UpdateRenderMatrix();
-		cb.world = XMMatrixTranspose(objects[i]->GetRenderObject()->GetWorldMatrix());
-		context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
-		context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
-		context->DrawIndexed(6, 0, 0);
 	}
-}
-
-void Graphics::DrawNoAnim(ID3D11DeviceContext* context, int shaderID, GameObject* object)
-{
-	UINT stride = sizeof(TexturedVertex);
-	UINT offset = 0;
-	ConstantBuffer2D cb;
-
-	context->OMSetBlendState(m_blendState, nullptr, 0xffffffff);
-	context->IASetInputLayout(m_vertexShaders[shaderID]->GetInputLayout());
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	context->RSSetState(m_rasterizerState.Get());
-	context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
-	context->VSSetShader(m_vertexShaders[shaderID]->GetShader(), NULL, 0);
-	context->PSSetShader(m_pixelShaders[shaderID]->GetShader(), NULL, 0);
-
-	cb.view = XMMatrixTranspose(m_camera->GetViewMatrix());
-	cb.proj = XMMatrixTranspose(m_camera->GetOrthoMatrix());
-
-	ID3D11Buffer* vb = object->GetRenderObject()->GetQuad()->GetVertexBuffer();
-	context->IASetVertexBuffers(0, 1, &vb, &stride, &offset);
-	context->IASetIndexBuffer(object->GetRenderObject()->GetQuad()->GetIndexBuffer(), DXGI_FORMAT_R32_UINT, 0);
-	ID3D11ShaderResourceView* currentTex = object->GetRenderObject()->GetTexture(0,0);
-	context->PSSetShaderResources(0, 1, &currentTex);
-	object->UpdateRenderMatrix();
-	cb.world = XMMatrixTranspose(object->GetRenderObject()->GetWorldMatrix());
-	context->UpdateSubresource(m_constantBuffer.Get(), 0, nullptr, &cb, 0, 0);
-	context->VSSetConstantBuffers(0, 1, m_constantBuffer.GetAddressOf());
-	context->DrawIndexed(6, 0, 0);
 }
 
 void Graphics::Update(float time)
@@ -151,16 +160,221 @@ void Graphics::Update(float time)
 	{
 		m_camera->MovePosition(m_camera->GetRight() * speed);
 	}
+	for (int i = 0; i < m_objectsToRender.size(); i++)
+	{
+		m_objectsToRender[i]->AnimationUpdate(time);
+	}
 }
 
-void Graphics::CreateRenderObject(int quadID, int textureID)
+void Graphics::ChangeCameraProjection(float width, float height, float nearZ, float farZ)
 {
+	m_camera->SetProjectionValues(width, height, nearZ, farZ);
+}
+
+RenderedObject* Graphics::GetSpecificRenderObject(int id)
+{
+	try {
+		m_objectsToRender.at(id);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return nullptr;
+	}
+	return m_objectsToRender[id];
+}
+
+std::string Graphics::CreateRenderObject(int quadID, int textureID)
+{
+	try {
+		m_quadTypes.at(quadID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Quad outside vector range";
+	}
+	try {
+
+		m_textures.at(textureID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Texture outside vector range";
+	}
 	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID]);
 	m_objectsToRender.push_back(obj);
+	return "Success saved to slot: " + std::to_string(m_objectsToRender.size() - 1);
 }
 
-void Graphics::CreateTexture(ID3D11Device* device, std::wstring texturePath)
+std::string Graphics::CreateAnimatedRenderObject(int quadID, int animationID , float frameTime)
 {
-	Texture* tex = new Texture(device,texturePath);
-	m_textures.push_back(tex);
+	try {
+		m_quadTypes.at(quadID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Quad outside vector range";
+	}
+	try {
+		m_animations.at(animationID).at(0);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Animation outside vector range";
+	}
+	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], m_animations[animationID], frameTime);
+	m_objectsToRender.push_back(obj);
+	return "Success saved to slot: " + std::to_string(m_objectsToRender.size() - 1);
+}
+
+Texture* Graphics::GetSpecificTexture(int texID)
+{
+	try {
+		m_textures.at(texID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return nullptr;
+	}
+	return m_textures[texID];
+}
+
+Texture* Graphics::GetSpecificAnimation(int animID, int frame)
+{
+	try {
+		m_animations.at(animID).at(frame);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return nullptr;
+	}
+	return m_animations[animID][frame];
+}
+
+int Graphics::GetNumberOfFrames(int animID)
+{
+	try {
+		m_animations.at(animID).at(0);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return 0;
+	}
+	return m_animations[animID].size();
+}
+
+std::string Graphics::CreateTexture(ID3D11Device* device, std::wstring texturePath)
+{
+	Texture* tex = new Texture();
+	bool result;
+	result = tex->IntialiseTexture(device, texturePath);
+	if (result)
+	{
+		m_textures.push_back(tex);
+		return "Success saved to slot: " + std::to_string(m_textures.size() - 1);
+	}
+	return "Failed to load";
+}
+
+std::string Graphics::CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath)
+{
+	std::vector<Texture*> textures;
+	for (int i = 0; i < texturePath.size(); i++)
+	{
+		Texture* tex = new Texture();
+		bool result;
+		result = tex->IntialiseTexture(device, texturePath[i]);
+		if (result)
+		{
+			textures.push_back(tex);
+		}
+		else
+		{
+			for (int i = 0; i < textures.size(); i++)
+			{
+				delete(textures[i]);
+			}
+			textures.clear();
+			return "Failed to load";
+		}
+	}
+	m_animations.push_back(textures);
+	return "Success saved to slot: " + std::to_string(m_animations.size() - 1);
+}
+
+std::string Graphics::DeleteTexture(int texID)
+{
+	try {
+		m_textures.at(texID);
+	}
+	catch (const std::out_of_range& e)
+	{
+		return "Outside vector range unable to delete";
+	}
+	delete(m_textures[texID]);
+	m_textures.erase(m_textures.begin() + texID);
+	return "Successfully deleted texture";
+}
+
+std::string Graphics::AddAnimationToRenderObject(int objectID, int animationID, float frameTime)
+{
+	try {
+		m_objectsToRender.at(objectID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "objectID outside vector range";
+	}
+	try {
+		m_animations.at(animationID).at(0);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Animation outside vector range";
+	}
+	m_objectsToRender[objectID]->PushAnimationBack(m_animations[animationID],frameTime);
+	return "Success animation added to slot: " + std::to_string(m_objectsToRender[objectID]->GetAnimations().size() - 1);
+}
+
+void Graphics::AddAnimationToRenderObject(RenderedObject* object, int animationID, float frameTime)
+{
+	for (int i = 0; i < m_objectsToRender.size(); i++)
+	{
+		if (m_objectsToRender[i] == object)
+		{
+			m_objectsToRender[i]->PushAnimationBack(m_animations[animationID], frameTime);
+		}
+	}
+}
+
+std::string Graphics::RemoveAnimationFromRenderObject(int objectID, int animationID)
+{
+	try {
+		m_objectsToRender.at(objectID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "objectID outside vector range";
+	}
+	try {
+		m_objectsToRender[objectID]->GetAnimations().at(animationID).at(0);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Animation outside vector range";
+	}
+	m_objectsToRender[objectID]->RemoveAnimation(animationID);
+	return "Animation successfully removed";
+}
+
+std::string Graphics::DeleteRenderedObject(int objID)
+{
+	try {
+		m_objectsToRender.at(objID);
+	}
+	catch (const std::out_of_range & e)
+	{
+		return "Outside vector range unable to delete";
+	}
+	m_objectsToRender.erase(m_objectsToRender.begin() + objID);
+	return "Successfully deleted Rendered Object";
 }

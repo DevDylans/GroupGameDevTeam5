@@ -3,9 +3,12 @@
 class Texture
 {
 public:
-	Texture(ID3D11Device* device, std::wstring texturePath);
+	Texture();
+	~Texture();
+	void ReleaseTexture();
+	bool IntialiseTexture(ID3D11Device* device, std::wstring texturePath);
 	ID3D11ShaderResourceView* GetTexture() { return m_texture; }
 private:
-	ID3D11ShaderResourceView* m_texture;
+	ID3D11ShaderResourceView* m_texture = nullptr;
 };
 

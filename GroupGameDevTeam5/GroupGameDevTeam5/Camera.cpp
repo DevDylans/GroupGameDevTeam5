@@ -12,6 +12,7 @@ Camera::Camera()
 void Camera::SetProjectionValues(float width, float height, float nearZ, float farZ)
 {
 	m_orthoMatrix = DirectX::XMMatrixOrthographicOffCenterLH(0.f, width, 0.f, height, nearZ, farZ);
+	UpdateMatrix();
 }
 void Camera::SetPosition(float x, float y, float z)
 {

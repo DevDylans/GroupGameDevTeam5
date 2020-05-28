@@ -24,6 +24,9 @@ public:
 	void Rotate(float x, float y, float z);
 	void Rotate(DirectX::XMVECTOR& pos);
 
+	XMFLOAT3 GetPosition() { return m_position; }
+	XMFLOAT2 GetScale() { return m_scale; }
+	XMFLOAT3 GetRotation() { return m_rotation; }
 private:
 	XMFLOAT2 m_scale;
 	XMFLOAT3 m_rotation;
