@@ -117,3 +117,18 @@ void GameObject::Rotate(DirectX::XMVECTOR& rot)
 		m_render->UpdateMatrix(m_position, m_scale, m_rotation);
 	}
 }
+
+XMFLOAT3 GameObject::GetPosition()
+{
+	return m_position;
+}
+
+float GameObject::GetCollisionRadius()
+{
+	return m_collisionRadius;
+}
+
+BoxEntents GameObject::GetCollisionBox()
+{
+	return BoxEntents(m_position.x, m_position.y, m_scale.x, m_scale.y);
+}
