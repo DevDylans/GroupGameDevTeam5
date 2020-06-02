@@ -15,7 +15,7 @@ public:
 	bool ReadFile(string path);
 	bool WriteFile(string path);
 
-	vector<GameObject*> GetGameObjects() {return m_GameObjects;}
+	vector<GameObject*>& GetGameObjects() {return m_GameObjects;}
 
 private:
 	//GameObject m_GameObject;

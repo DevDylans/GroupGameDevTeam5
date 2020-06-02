@@ -29,7 +29,6 @@ public:
 	std::string CreateRenderObject(int quadID, int textureID);
 	std::string CreateAnimatedRenderObject(int quadID, int animationID, float frameTime);
 
-	Texture* GetSpecificTexture(int texID);
 	Texture* GetSpecificAnimation(int animID, int frame);
 	int GetNumberOfFrames(int animID);
 	std::string CreateTexture(ID3D11Device* device, std::wstring texturePath);
@@ -44,7 +43,6 @@ private:
 	std::vector<VertexShader*> m_vertexShaders;
 	std::vector<PixelShader*> m_pixelShaders;
 	std::vector<Quad*> m_quadTypes;
-	std::vector<Texture*> m_textures;
 	std::vector<std::vector<Texture*>> m_animations;
 	std::vector<RenderedObject*> m_objectsToRender;
 	Camera* m_camera = nullptr;

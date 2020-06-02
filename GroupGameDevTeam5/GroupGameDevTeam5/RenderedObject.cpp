@@ -1,11 +1,14 @@
 #include "pch.h"
 #include "RenderedObject.h"
 
-RenderedObject::RenderedObject(Quad& quad, Texture& texture )
+RenderedObject::RenderedObject(Quad& quad, std::vector<Texture*> animation)
 {
 	m_renderQuad = &quad;
 	std::vector<ID3D11ShaderResourceView*> base;
-	base.push_back(texture.GetTexture());
+	for (int i = 0; i < animation.size(); i++)
+	{
+		base.push_back(animation[i]->GetTexture());
+	}
 	m_textures.push_back(base);
 	m_frameTimes.push_back(0);
 }
