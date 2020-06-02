@@ -194,13 +194,13 @@ std::string Graphics::CreateRenderObject(int quadID, int textureID)
 	}
 	try {
 
-		m_textures.at(textureID);
+		m_animations.at(textureID).at(0);
 	}
 	catch (const std::out_of_range & e)
 	{
 		return "Texture outside vector range";
 	}
-	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], *m_textures[textureID]);
+	RenderedObject* obj = new RenderedObject(*m_quadTypes[quadID], m_animations[textureID]);
 	m_objectsToRender.push_back(obj);
 	return "Success saved to slot: " + std::to_string(m_objectsToRender.size() - 1);
 }
@@ -226,7 +226,7 @@ std::string Graphics::CreateAnimatedRenderObject(int quadID, int animationID , f
 	return "Success saved to slot: " + std::to_string(m_objectsToRender.size() - 1);
 }
 
-Texture* Graphics::GetSpecificTexture(int texID)
+/*Texture* Graphics::GetSpecificTexture(int texID)
 {
 	try {
 		m_textures.at(texID);
@@ -236,7 +236,7 @@ Texture* Graphics::GetSpecificTexture(int texID)
 		return nullptr;
 	}
 	return m_textures[texID];
-}
+}*/
 
 Texture* Graphics::GetSpecificAnimation(int animID, int frame)
 {
@@ -264,15 +264,21 @@ int Graphics::GetNumberOfFrames(int animID)
 
 std::string Graphics::CreateTexture(ID3D11Device* device, std::wstring texturePath)
 {
+	std::vector<Texture*> textures;
 	Texture* tex = new Texture();
 	bool result;
 	result = tex->IntialiseTexture(device, texturePath);
 	if (result)
 	{
-		m_textures.push_back(tex);
-		return "Success saved to slot: " + std::to_string(m_textures.size() - 1);
+		textures.push_back(tex);
 	}
-	return "Failed to load";
+	else
+	{
+		textures.clear();
+		return "Failed to load";
+	}
+	m_animations.push_back(textures);
+	return "Success saved to slot: " + std::to_string(m_animations.size() - 1);
 }
 
 std::string Graphics::CreateTextureGroup(ID3D11Device* device, std::vector<std::wstring> texturePath)
@@ -304,14 +310,17 @@ std::string Graphics::CreateTextureGroup(ID3D11Device* device, std::vector<std::
 std::string Graphics::DeleteTexture(int texID)
 {
 	try {
-		m_textures.at(texID);
+		m_animations.at(texID).at(0);
 	}
 	catch (const std::out_of_range& e)
 	{
 		return "Outside vector range unable to delete";
 	}
-	delete(m_textures[texID]);
-	m_textures.erase(m_textures.begin() + texID);
+	for (int i = 0; i < m_animations[texID].size(); i++)
+	{
+		delete(m_animations[texID][i]);
+	}
+	m_animations.erase(m_animations.begin() + texID);
 	return "Successfully deleted texture";
 }
 

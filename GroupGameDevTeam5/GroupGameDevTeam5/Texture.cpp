@@ -24,5 +24,6 @@ bool Texture::IntialiseTexture(ID3D11Device* device, std::wstring texturePath)
 	{
 		return false;
 	}
+	textureName = texturePath;
 	return true;
 }

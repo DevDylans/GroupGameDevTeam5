@@ -6,7 +6,7 @@
 class RenderedObject
 {
 public:
-	RenderedObject(Quad& quad, Texture& texture);
+	RenderedObject(Quad& quad, std::vector<Texture*> animation);
 	RenderedObject(Quad& quad, std::vector<Texture*> animation, float frameTime);
 
 	DirectX::XMMATRIX GetWorldMatrix() { return m_worldMatrix; }

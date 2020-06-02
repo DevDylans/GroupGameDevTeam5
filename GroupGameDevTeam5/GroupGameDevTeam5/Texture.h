@@ -8,6 +8,7 @@ public:
 	void ReleaseTexture();
 	bool IntialiseTexture(ID3D11Device* device, std::wstring texturePath);
 	ID3D11ShaderResourceView* GetTexture() { return m_texture; }
+	std::wstring textureName;
 private:
 	ID3D11ShaderResourceView* m_texture = nullptr;
 };

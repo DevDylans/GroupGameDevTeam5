@@ -100,10 +100,10 @@ void UserInterface::RenderTextureInterface(ID3D11Device* device)
     ImGui::Checkbox("Display desired Texture?",&sm_toggleDisplayTexture);
     if (ImGui::Button("Display Texture"))
     {
-        sm_displayTextureExists = m_graphics.GetSpecificTexture(sm_textureDisplay);
+        sm_displayTextureExists = m_graphics.GetSpecificAnimation(sm_textureDisplay,0);
         if (sm_displayTextureExists)
         {
-            sm_viewTexture = m_graphics.GetSpecificTexture(sm_textureDisplay)->GetTexture();
+            sm_viewTexture = m_graphics.GetSpecificAnimation(sm_textureDisplay,0)->GetTexture();
             sm_displayedTextureID = sm_textureDisplay;
         }
     }
@@ -272,12 +272,12 @@ void UserInterface::GameObjectInterface(ID3D11Device* device, std::vector<GameOb
             sm_scaleCreation[0], sm_scaleCreation[1], sm_rotationCreation[0], sm_rotationCreation[1], sm_rotationCreation[2]);
         if (sm_renderedObjectAttatch < 0 || sm_renderedObjectAttatch >= m_graphics.GetObjectsToRender().size())
         {
-            sm_resultGameObjectCreation = "Object created in slot: " + std::to_string(gameObjects.size() - 1) + "\nNo Render attatched";
+            sm_resultGameObjectCreation = "Object created in slot: " + std::to_string(gameObjects.size()) + "\nNo Render attatched";
         }
         else
         {
             newObj->SetRenderObject(m_graphics.GetSpecificRenderObject(sm_renderedObjectAttatch));
-            sm_resultGameObjectCreation = "Object created in slot: " + std::to_string(gameObjects.size() - 1);
+            sm_resultGameObjectCreation = "Object created in slot: " + std::to_string(gameObjects.size());
         }
         gameObjects.push_back(newObj);
     }
