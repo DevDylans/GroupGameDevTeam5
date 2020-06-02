@@ -3,14 +3,12 @@
 
 LevelFile::LevelFile()
 {
-	string path = "test level file.txt";
-	ReadFile(path);
-	//WriteFile(path);
+
 }
 
-bool LevelFile::ReadFile(string path)
+bool LevelFile::ReadLevelFile()
 {
-	ifstream levelFile(path);
+	ifstream levelFile("test level file.txt");
 	string line;
 	string tempString;
 
@@ -53,9 +51,9 @@ bool LevelFile::ReadFile(string path)
 	}
 }
 
-bool LevelFile::WriteFile(string path, vector<GameObject*> gameObjects)
+bool LevelFile::WriteLevelFile(vector<GameObject*> gameObjects)
 {
-	ofstream levelFile(path);
+	ofstream levelFile("");
 
 	if (levelFile.is_open())
 	{
@@ -68,9 +66,39 @@ bool LevelFile::WriteFile(string path, vector<GameObject*> gameObjects)
 		return false;
 	}
 }
+
 void LevelFile::CreateGameObject()
 {
 	GameObject* gameObject = new GameObject(m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ);
 	RenderedObject* renderedObject = new RenderedObject(m_QuadID, m_TextureID);
 	m_GameObjects.push_back(gameObject);
+}
+
+bool LevelFile::ReadRenderedObjectFile()
+{
+	fstream renderedObjectFile("Rendered Object.txt");
+	string line;
+	string tempString;
+
+	if (renderedObjectFile.is_open())
+	{
+		while (getline(renderedObjectFile, line))
+		{
+			stringstream ss(line);
+			getline(ss, tempString, ',');
+			m_QuadID = stoi(tempString);
+			getline(ss, tempString, ',');
+			m_TextureID = stoi(tempString);
+			getline(ss, tempString, ',');
+			m_FrameTime = stoi(tempString);
+
+			m_Graphics.CreateRenderObject(m_QuadID, m_TextureID);
+		}
+		renderedObjectFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
