@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include "GameObject.h"
+#include "RenderedObject.h"
 
 using namespace std;
 
@@ -13,13 +14,14 @@ public:
 	LevelFile();
 
 	bool ReadFile(string path);
-	bool WriteFile(string path);
+	bool WriteFile(string path, vector<GameObject*> gameObjects);
 
-	vector<GameObject*> GetGameObjects() {return m_GameObjects;}
+	vector<GameObject*>& GetGameObjects() {return m_GameObjects;}
 
 private:
 	//GameObject m_GameObject;
-	float m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ;
+	float m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ, m_FrameTime;
+	int m_QuadID, m_TextureID;
 	vector<GameObject*> m_GameObjects;
 
 	void CreateGameObject();
