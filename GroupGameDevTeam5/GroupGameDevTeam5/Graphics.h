@@ -39,6 +39,8 @@ public:
 	void AddAnimationToRenderObject(RenderedObject* object, int animationID, float frameTime);
 	std::string RemoveAnimationFromRenderObject(int objectID, int animationID);
 	std::string DeleteRenderedObject(int objID);
+
+	std::vector<std::vector<Texture*>> GetAnimations() { return m_animations; }
 private:
 	std::vector<VertexShader*> m_vertexShaders;
 	std::vector<PixelShader*> m_pixelShaders;
