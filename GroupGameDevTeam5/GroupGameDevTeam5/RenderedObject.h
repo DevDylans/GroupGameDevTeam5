@@ -21,6 +21,7 @@ public:
 	void RemoveAnimation(int animID);
 	std::string SetCurrentAnimation(int id);
 	std::vector<std::vector<ID3D11ShaderResourceView*>> GetAnimations() { return m_textures; }
+	std::vector<float> GetAnimationTimes() { return m_frameTimes; }
 private:
 	DirectX::XMMATRIX m_worldMatrix = DirectX::XMMatrixIdentity();
 	std::vector<std::vector<ID3D11ShaderResourceView*>> m_textures;
