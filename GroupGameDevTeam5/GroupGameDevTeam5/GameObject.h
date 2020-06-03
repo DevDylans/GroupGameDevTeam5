@@ -4,6 +4,7 @@ using namespace DirectX;
 #include <Structs.h>
 #include "ParticleModel.h"
 #include "Collisions.h"
+#include<algorithm>
 
 class GameObject
 {

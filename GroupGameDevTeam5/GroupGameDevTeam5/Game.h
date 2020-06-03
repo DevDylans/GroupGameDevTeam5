@@ -13,7 +13,7 @@
 #include <iostream>
 #include <string>
 #include "UserInterface.h"
-
+#include <algorithm>
 #include "sound.h" 
 #include "Audio.h"
 

@@ -32,6 +32,7 @@ void Game::Initialize(HWND window, int width, int height)
 
     m_deviceResources->CreateWindowSizeDependentResources();
     m_LevelFile = LevelFile();
+    //std::sort(std::begin(m_LevelFile.GetGameObjects()), std::end(m_LevelFile.GetGameObjects()));
     CreateWindowSizeDependentResources();
     m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet);
 
@@ -88,7 +89,6 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
     //m_deviceResources->GetD3DDeviceContext()->OMSetDepthStencilState
-   
     m_graphicsComponenet->Draw(context,0, m_LevelFile.GetGameObjects());
     m_UI->Draw(m_deviceResources->GetD3DDevice(), m_LevelFile.GetGameObjects());
     m_deviceResources->PIXEndEvent();
@@ -190,6 +190,28 @@ void Game::CreateWindowSizeDependentResources()
     for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
     {
         m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    }
+    //bubblesort
+    int size = m_LevelFile.GetGameObjects().size();
+    bool swapped = false;
+    for (int i = 0; i < size; i++)
+    {
+        swapped = false;
+        for (int j = 0; j < (size - i) - 1; j++)
+        {
+            if (m_LevelFile.GetGameObjects()[j]->GetTransform().GetPosition().z < m_LevelFile.GetGameObjects()[j + 1]->GetTransform().GetPosition().z)
+            {
+                GameObject* temp = nullptr;
+                temp = m_LevelFile.GetGameObjects()[j];
+                m_LevelFile.GetGameObjects()[j] = m_LevelFile.GetGameObjects()[j + 1];
+                m_LevelFile.GetGameObjects()[j + 1] = temp;
+                swapped = true;
+            }
+        }
+        if (!swapped)
+        {
+            break;
+        }
     }
 }
 
