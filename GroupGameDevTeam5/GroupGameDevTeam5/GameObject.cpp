@@ -103,7 +103,6 @@ void GameObject::SetRotation(float x, float y, float z)
 
 void GameObject::MovePosition(float x, float y, float z)
 {
-
 	XMFLOAT3 _currPos = _objTransform.GetPosition();
 	_currPos.x += x;
 	_currPos.y += y;

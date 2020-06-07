@@ -97,7 +97,6 @@
     <ClInclude Include="LevelFile.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Collisions.h" />
     <ClInclude Include="ParticleModel.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -107,12 +106,21 @@
     <ClInclude Include="Structs.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="ParticleModel.h" />
-    <ClInclude Include="CollisionComponent.h" />
-    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Collisions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">
@@ -172,18 +180,24 @@
     <ClCompile Include="LevelFile.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Collisions.cpp" />
     <ClCompile Include="ParticleModel.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="ParticleModel.cpp" />
-    <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Collisions.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

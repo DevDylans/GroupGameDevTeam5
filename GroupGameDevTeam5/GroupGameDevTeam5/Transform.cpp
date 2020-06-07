@@ -1,11 +1,6 @@
 #include "pch.h"
 #include "Transform.h"
 
-Transform::Transform()
-{
-}
-
-Transform::Transform(XMFLOAT3 position, XMFLOAT3 rotation, XMFLOAT2 scale)
 Transform::Transform(XMFLOAT3 position, XMFLOAT3 rotation, XMFLOAT2 scale) : _position(position), _rotation(rotation), _scale(scale)
 {
 }

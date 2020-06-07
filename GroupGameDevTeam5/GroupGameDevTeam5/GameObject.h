@@ -45,8 +45,6 @@ private:
 	XMVECTOR m_positionVector = XMVectorZero();
 	XMVECTOR m_rotationVector = XMVectorZero();
 
-	ParticleModel* _particleModel = nullptr;
-
 	Transform _objTransform;
 	RenderedObject* m_render = nullptr;
 	ParticleModel* _particleModel = nullptr;
