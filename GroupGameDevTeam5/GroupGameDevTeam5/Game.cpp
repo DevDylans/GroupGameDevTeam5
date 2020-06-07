@@ -33,19 +33,19 @@ void Game::Initialize(HWND window, int width, int height)
     m_deviceResources->CreateWindowSizeDependentResources();
 
     m_LevelFile.ReadTextureFile();
-    for (int i = 0; i < m_LevelFile.GetTextures().size; i = i++)
+    for (int i = 0; i < m_LevelFile.GetTextures().size(); i = i++)
     {
         m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), m_LevelFile.GetTextures()[i]);
     }
     m_LevelFile.ReadRenderedObjectFile();
-    for (int i = 0; i < m_LevelFile.GetRenderedObjects().size; i = i + 3)
+    for (int i = 0; i < m_LevelFile.GetRenderedObjects().size(); i = i + 3)
     {
         m_graphicsComponenet->CreateAnimatedRenderObject(m_LevelFile.GetRenderedObjects()[i], m_LevelFile.GetRenderedObjects()[i + 1], m_LevelFile.GetRenderedObjects()[i + 2]);
     }
     m_LevelFile.ReadLevelFile();
-    for (int i = 0; i < m_LevelFile.GetGameObjects().size; i = i++)
+    for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i = i++)
     {
-        m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject[m_LevelFile.GetRenderIDs()[i]]);
+        m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(m_LevelFile.GetRenderIDs()[i]));
     }
 
     CreateWindowSizeDependentResources();

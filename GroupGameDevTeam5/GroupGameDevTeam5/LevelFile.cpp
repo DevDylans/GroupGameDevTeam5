@@ -48,13 +48,25 @@ bool LevelFile::ReadLevelFile()
 	}
 }
 
-bool LevelFile::WriteLevelFile(vector<GameObject*> gameObjects)
+bool LevelFile::WriteLevelFile(int renderedObjectID)
 {
-	ofstream levelFile("");
+	ofstream levelFile("Level save test.txt");
 
 	if (levelFile.is_open())
 	{
-		//levelFile << gameObjects. << endl;
+		for (int i = 0; i < m_GameObjects.size(); i++)
+		{
+			levelFile << m_GameObjects[i]->GetTransform().GetPosition().x << ','
+				<< m_GameObjects[i]->GetTransform().GetPosition().y << ','
+				<< m_GameObjects[i]->GetTransform().GetPosition().z << ',' 
+				<< m_GameObjects[i]->GetTransform().GetScale().x << ','
+				<< m_GameObjects[i]->GetTransform().GetScale().y << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().x << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().y << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().z << ','
+				<< renderedObjectID 
+				<< endl;
+		}
 		levelFile.close();
 		return true;
 	}
@@ -99,6 +111,34 @@ bool LevelFile::ReadRenderedObjectFile()
 	}
 }
 
+bool LevelFile::WriteRenderedObjectFile()
+{
+	ofstream renderedObjectFile("RO save test.txt");
+
+	if (renderedObjectFile.is_open())
+	{
+		for (int i = 0; i < m_RenderedObjects.size(); i++)
+		{
+			renderedObjectFile << m_GameObjects[i]->GetTransform().GetPosition().x << ','
+				<< m_GameObjects[i]->GetTransform().GetPosition().y << ','
+				<< m_GameObjects[i]->GetTransform().GetPosition().z << ','
+				<< m_GameObjects[i]->GetTransform().GetScale().x << ','
+				<< m_GameObjects[i]->GetTransform().GetScale().y << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().x << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().y << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().z << ','
+				//<< m_GameObjects[i]->GetRenderObject() 
+				<< endl;
+		}
+		renderedObjectFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 void LevelFile::CreateRenderedObject()
 {
 	m_RenderedObjects.push_back(m_QuadID);
@@ -112,11 +152,18 @@ bool LevelFile::ReadTextureFile()
 	string line;
 	wstring tempWstring;
 
+	//std::string nameFromFile = ReadTextureFromFile
+	wstring convertedLine(line.length(), L' ');
+	copy(line.begin(), line.end(), convertedLine.begin());
+	//m_graphics.CreateTexture(device, convertedName);
+
 	if (TextureFile.is_open())
 	{
 		while (getline(TextureFile, line))
 		{
-			//m_TexturePath = line;
+			wstring convertedLine(line.length(), L' ');
+			copy(line.begin(), line.end(), convertedLine.begin());
+			m_TexturePath = convertedLine;
 
 			CreateTexture();
 		}

@@ -13,7 +13,7 @@ public:
 	LevelFile();
 
 	bool ReadLevelFile();
-	bool WriteLevelFile(vector<GameObject*> gameObjects);
+	bool WriteLevelFile(int renderedObjectID);
 
 	bool ReadRenderedObjectFile();
 	bool WriteRenderedObjectFile();
@@ -27,8 +27,8 @@ public:
 	vector<wstring> GetTextures() { return m_Textures; }
 
 private:
-	float m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ, m_FrameTime;
-	int m_QuadID, m_TextureID, m_RenderedObjectID;
+	float m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ, m_FrameTime = 0.0;
+	int m_QuadID, m_TextureID, m_RenderedObjectID = 0;
 	wstring m_TexturePath;
 
 	vector<GameObject*> m_GameObjects;
