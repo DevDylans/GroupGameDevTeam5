@@ -1,6 +1,7 @@
 #pragma once
 using namespace DirectX;
 #include "RenderedObject.h"
+#include "ParticleModel.h"
 
 class GameObject
 {
@@ -14,22 +15,31 @@ public:
 
 	void SetRenderObject(RenderedObject* object);
 	RenderedObject* GetRenderObject() { return m_render; }
-	void UpdateRenderMatrix() { m_render->UpdateMatrix(m_position, m_scale, m_rotation); }
+	void UpdateRenderMatrix() { m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation()); }
 
 	void SetScale(float x, float y);
 	void SetPosition(float x, float y, float z);
+	void SetRotation(float x, float y, float z);
+	void SetPhysicsComponent(ParticleModel* physicsModel) { physicsModel->SetTransform(&_objTransform); _particleModel = physicsModel; }
+
 	void MovePosition(float x, float y, float z);
 	void MovePosition(const DirectX::XMVECTOR& pos);
-	void SetRotation(float x, float y, float z);
+	
 	void Rotate(float x, float y, float z);
 	void Rotate(DirectX::XMVECTOR& pos);
 
+	void Update(float deltaTime);
+
+	Transform GetTransform() { return _objTransform; }
+	Transform* GetTransformP() { return &_objTransform; }
+	ParticleModel* GetPhysicsComponent() { return _particleModel; }
+
 private:
-	XMFLOAT2 m_scale;
-	XMFLOAT3 m_rotation;
-	XMFLOAT3 m_position;
-	XMVECTOR m_positionVector;
-	XMVECTOR m_rotationVector;
+	Transform _objTransform;
+	XMVECTOR m_positionVector = XMVectorZero();
+	XMVECTOR m_rotationVector = XMVectorZero();
+
+	ParticleModel* _particleModel = nullptr;
 
 	RenderedObject* m_render = nullptr;
 };

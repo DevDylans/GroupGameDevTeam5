@@ -8,6 +8,7 @@
 #include "StepTimer.h"
 #include "Graphics.h"
 #include "GameObject.h"
+#include "CollisionManager.h"
 #include <iostream>
 
 // A basic game implementation that creates a D3D11 device and
