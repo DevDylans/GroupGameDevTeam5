@@ -117,17 +117,11 @@ bool LevelFile::WriteRenderedObjectFile()
 
 	if (renderedObjectFile.is_open())
 	{
-		for (int i = 0; i < m_RenderedObjects.size(); i++)
+		for (int i = 0; i < m_RenderedObjects.size(); i + 3)
 		{
-			renderedObjectFile << m_GameObjects[i]->GetTransform().GetPosition().x << ','
-				<< m_GameObjects[i]->GetTransform().GetPosition().y << ','
-				<< m_GameObjects[i]->GetTransform().GetPosition().z << ','
-				<< m_GameObjects[i]->GetTransform().GetScale().x << ','
-				<< m_GameObjects[i]->GetTransform().GetScale().y << ','
-				<< m_GameObjects[i]->GetTransform().GetRotation().x << ','
-				<< m_GameObjects[i]->GetTransform().GetRotation().y << ','
-				<< m_GameObjects[i]->GetTransform().GetRotation().z << ','
-				//<< m_GameObjects[i]->GetRenderObject() 
+			renderedObjectFile << m_RenderedObjects[i] << ','
+				<< m_RenderedObjects[i + 1] << ','
+				<< m_RenderedObjects[i + 2] << ','
 				<< endl;
 		}
 		renderedObjectFile.close();
@@ -152,11 +146,6 @@ bool LevelFile::ReadTextureFile()
 	string line;
 	wstring tempWstring;
 
-	//std::string nameFromFile = ReadTextureFromFile
-	wstring convertedLine(line.length(), L' ');
-	copy(line.begin(), line.end(), convertedLine.begin());
-	//m_graphics.CreateTexture(device, convertedName);
-
 	if (TextureFile.is_open())
 	{
 		while (getline(TextureFile, line))
@@ -166,6 +155,29 @@ bool LevelFile::ReadTextureFile()
 			m_TexturePath = convertedLine;
 
 			CreateTexture();
+		}
+		TextureFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool LevelFile::WriteTextureFile()
+{
+	ofstream TextureFile("Texture save test.txt");
+	string tempString;
+
+	using convert_t = std::codecvt_utf8<wchar_t>;
+	wstring_convert<convert_t, wchar_t> strconverter;
+
+	if (TextureFile.is_open())
+	{
+		for (int i = 0; i < m_Textures.size(); i++)
+		{
+			TextureFile << strconverter.to_bytes(m_Textures[i]) << endl;
 		}
 		TextureFile.close();
 		return true;

@@ -3,6 +3,8 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <codecvt>
+#include <locale>
 #include "GameObject.h"
 
 using namespace std;
