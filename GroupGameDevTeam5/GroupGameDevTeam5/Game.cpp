@@ -4,6 +4,7 @@
 
 #include "pch.h"
 #include "Game.h"
+#include "debugapi.h"
 
 extern void ExitGame();
 
@@ -26,6 +27,8 @@ Game::~Game()
 void Game::Initialize(HWND window, int width, int height)
 {
     m_deviceResources->SetWindow(window, width, height);
+
+    CollisionManager::Create();
 
     m_deviceResources->CreateDeviceResources();
     CreateDeviceDependentResources();
@@ -68,6 +71,13 @@ void Game::Update(DX::StepTimer const& timer)
     elapsedTime;
     m_graphicsComponenet->Update(elapsedTime);
 
+    char szBuffer[1024];
+    sprintf_s(szBuffer, "Speed0: %f, Speed1: %f\n", CollisionManager::GetInstance()->GetCollider(1)->GetVelocity().x, CollisionManager::GetInstance()->GetCollider(0)->GetVelocity().x);
+    OutputDebugStringA(szBuffer);
+
+    CollisionManager::GetInstance()->CollisionDetection();
+
+    CollisionManager::GetInstance()->UpdatePhysics(elapsedTime);
 }
 #pragma endregion
 
@@ -186,7 +196,6 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
-
     for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
     {
         m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
@@ -213,11 +222,33 @@ void Game::CreateWindowSizeDependentResources()
             break;
         }
     }
+	//JustDebugMayRemove
+    m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), L"TestTexture.png");
+    m_graphicsComponenet->CreateRenderObject(0, 0);
+    GameObject* obj = new GameObject(XMFLOAT3(0,200,5),XMFLOAT2(50,50));
+    obj->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    m_gameObjects.push_back(obj);
+    GameObject* objTwo = new GameObject(XMFLOAT3(200, 200, 5), XMFLOAT2(50, 50));
+    objTwo->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
+    m_gameObjects.push_back(objTwo);
+
+    ParticleModel* obj1PM = new ParticleModel(obj->GetTransformP(), ColliderType::Kinematic, XMFLOAT2(50, 50));
+    obj->SetPhysicsComponent(obj1PM);
+    obj1PM->SetMass(1);
+    obj1PM->SetCoeffR(0);
+    CollisionManager::GetInstance()->AddCollider(obj1PM);
+
+    ParticleModel* obj2PM = new ParticleModel(objTwo->GetTransformP(), ColliderType::Kinematic, XMFLOAT2(50, 50));
+    objTwo->SetPhysicsComponent(obj2PM);
+    obj2PM->SetCoeffR(0);
+    CollisionManager::GetInstance()->AddCollider(obj2PM);
 }
 
 void Game::OnDeviceLost()
 {
     // TODO: Add Direct3D resource cleanup here.
+
+    CollisionManager::Destroy();
 }
 
 void Game::OnDeviceRestored()

@@ -108,6 +108,11 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="ParticleModel.h" />
+    <ClInclude Include="CollisionComponent.h" />
+    <ClInclude Include="CollisionManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DeviceResources.cpp">
@@ -175,6 +180,10 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Transform.cpp" />
+    <ClCompile Include="ParticleModel.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

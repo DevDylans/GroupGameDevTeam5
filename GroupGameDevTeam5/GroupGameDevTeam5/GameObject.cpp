@@ -68,8 +68,7 @@ void GameObject::SetRenderObject(RenderedObject* object)
 
 void GameObject::SetScale(float x, float y)
 {
-	XMFLOAT2 scale = XMFLOAT2(x, y);
-	_objTransform.SetScale(scale);
+	_objTransform.SetScale(x, y);
 
 	if (m_render != nullptr)
 	{
@@ -88,8 +87,23 @@ void GameObject::SetPosition(float x, float y, float z)
 		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
+
+void GameObject::SetRotation(float x, float y, float z)
+{
+	XMFLOAT3 _newRot = XMFLOAT3(x, y, z);
+	_objTransform.SetRotation(_newRot);
+
+	m_rotationVector = XMLoadFloat3(&_newRot);
+	if (m_render != nullptr)
+	{
+		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
+	}
+}
+
+
 void GameObject::MovePosition(float x, float y, float z)
 {
+
 	XMFLOAT3 _currPos = _objTransform.GetPosition();
 	_currPos.x += x;
 	_currPos.y += y;
@@ -102,23 +116,14 @@ void GameObject::MovePosition(float x, float y, float z)
 		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
+
 void GameObject::MovePosition(const DirectX::XMVECTOR& pos)
 {
 	XMFLOAT3 position;
 	XMStoreFloat3(&position, pos);
 	MovePosition(position.x, position.y, position.z);
 }
-void GameObject::SetRotation(float x, float y, float z)
-{
-	XMFLOAT3 _newRot = XMFLOAT3(x, y, z);
-	_objTransform.SetRotation(_newRot);
 
-	m_rotationVector = XMLoadFloat3(&_newRot);
-	if (m_render != nullptr)
-	{
-		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
-	}
-}
 void GameObject::Rotate(float x, float y, float z)
 {
 	XMFLOAT3 _currRot = _objTransform.GetRotation();
@@ -133,6 +138,7 @@ void GameObject::Rotate(float x, float y, float z)
 		m_render->UpdateMatrix(_objTransform.GetPosition(), _objTransform.GetScale(), _objTransform.GetRotation());
 	}
 }
+
 void GameObject::Rotate(DirectX::XMVECTOR& rot)
 {
 	XMFLOAT3 rotation;

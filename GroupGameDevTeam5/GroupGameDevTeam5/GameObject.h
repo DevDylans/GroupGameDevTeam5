@@ -5,6 +5,7 @@ using namespace DirectX;
 #include "ParticleModel.h"
 #include "Collisions.h"
 #include<algorithm>
+#include "ParticleModel.h"
 
 class GameObject
 {
@@ -22,23 +23,29 @@ public:
 
 	void SetScale(float x, float y);
 	void SetPosition(float x, float y, float z);
+	void SetRotation(float x, float y, float z);
+	void SetPhysicsComponent(ParticleModel* physicsModel) { physicsModel->SetTransform(&_objTransform); _particleModel = physicsModel; }
+
 	void MovePosition(float x, float y, float z);
 	void MovePosition(const DirectX::XMVECTOR& pos);
-	void SetRotation(float x, float y, float z);
+	
 	void Rotate(float x, float y, float z);
 	void Rotate(DirectX::XMVECTOR& pos);
 
-	//void SetPhysicsComponent(ParticleModel* physicsModel) { physicsModel->SetTransform(&_objTransform); _particleModel = physicsModel; }
-
 	void Update(float deltaTime);
+	
 
 	float GetCollisionRadius();
 	BoxEntents GetCollisionBox();
 
 	Transform GetTransform() { return _objTransform; }
+	Transform* GetTransformP() { return &_objTransform; }
+	ParticleModel* GetPhysicsComponent() { return _particleModel; }
 private:
-	XMVECTOR m_positionVector;
-	XMVECTOR m_rotationVector;
+	XMVECTOR m_positionVector = XMVectorZero();
+	XMVECTOR m_rotationVector = XMVectorZero();
+
+	ParticleModel* _particleModel = nullptr;
 
 	Transform _objTransform;
 	RenderedObject* m_render = nullptr;

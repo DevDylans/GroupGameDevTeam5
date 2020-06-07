@@ -10,6 +10,7 @@
 #include "Graphics.h"
 #include "GameObject.h"
 #include "LevelFile.h"
+#include "CollisionManager.h"
 #include <iostream>
 #include <string>
 #include "UserInterface.h"

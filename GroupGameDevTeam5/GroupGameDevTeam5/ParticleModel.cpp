@@ -1,13 +1,33 @@
 #include "pch.h"
 #include "ParticleModel.h"
 
-ParticleModel::ParticleModel(Transform * transform) : _transform(transform)
+ParticleModel::ParticleModel(Transform * transform, ColliderType type, XMFLOAT2 size) : _transform(transform)
 {
 	XMFLOAT3 initialValues = XMFLOAT3(0, 0, 0);
 
 	_velocity = initialValues;
 	_acceleration = initialValues;
 	_totalForce = initialValues;
+
+	_collisionRect.type = type;
+	_collisionRect.size.x = size.x + 50;
+	_collisionRect.size.y = size.y + 50;
+}
+
+ParticleModel::ParticleModel(Transform* transform, ColliderType type, XMFLOAT2 size, float mass, float accelerationG) : _transform(transform)
+{
+	XMFLOAT3 initialValues = XMFLOAT3(0, 0, 0);
+
+	_velocity = initialValues;
+	_acceleration = initialValues;
+	_totalForce = initialValues;
+
+	_mass = mass;
+	_accelerationG = accelerationG;
+
+	_collisionRect.type = type;
+	_collisionRect.size.x = size.x + 50;
+	_collisionRect.size.y = size.y + 50;
 }
 
 ParticleModel::~ParticleModel()
@@ -21,8 +41,33 @@ void ParticleModel::ApplyForce(XMFLOAT3 force)
 	_totalForce.z += force.z;
 }
 
+void ParticleModel::ApplyForce(XMVECTOR force)
+{
+	XMFLOAT3 forceToApply;
+	XMStoreFloat3(&forceToApply, force);
+	ApplyForce(forceToApply);
+}
+
+void ParticleModel::SetCoeffR(float newR)
+{
+	if (newR < 0.0)
+	{
+		_coeffR = 0;
+	}
+	else if (newR > 1.0)
+	{
+		_coeffR = 1;
+	}
+	else
+	{
+		_coeffR = newR;
+	}
+}
+
 void ParticleModel::Update(float t)
 {
+	_oldTransform = *_transform;
+
 	CalculateAcceleration(t);
 	CalculateVelocity(t);
 	CalculatePosition(t);
@@ -32,9 +77,9 @@ void ParticleModel::Update(float t)
 
 void ParticleModel::CalculateAcceleration(float delta)
 {
-	_acceleration.x += _totalForce.x * delta;
-	_acceleration.y += _totalForce.y * delta;
-	_acceleration.z += _totalForce.z * delta;
+	_acceleration.x = _totalForce.x * delta;
+	_acceleration.y = _totalForce.y * delta;
+	_acceleration.z = _totalForce.z * delta;
 }
 
 void ParticleModel::CalculateVelocity(float delta)
