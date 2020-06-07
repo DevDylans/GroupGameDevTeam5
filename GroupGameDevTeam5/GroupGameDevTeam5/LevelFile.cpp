@@ -67,6 +67,7 @@ bool LevelFile::WriteLevelFile(vector<GameObject*> gameObjects)
 void LevelFile::CreateGameObject()
 {
 	GameObject* gameObject = new GameObject(m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ);
+	m_GameObjects.push_back(gameObject);
 }
 
 bool LevelFile::ReadRenderedObjectFile()
@@ -103,4 +104,32 @@ void LevelFile::CreateRenderedObject()
 	m_RenderedObjects.push_back(m_QuadID);
 	m_RenderedObjects.push_back(m_TextureID);
 	m_RenderedObjects.push_back(m_FrameTime);
+}
+
+bool LevelFile::ReadTextureFile()
+{
+	fstream TextureFile("Textures.txt");
+	string line;
+	wstring tempWstring;
+
+	if (TextureFile.is_open())
+	{
+		while (getline(TextureFile, line))
+		{
+			//m_TexturePath = line;
+
+			CreateTexture();
+		}
+		TextureFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void LevelFile::CreateTexture()
+{
+	m_Textures.push_back(m_TexturePath);
 }
