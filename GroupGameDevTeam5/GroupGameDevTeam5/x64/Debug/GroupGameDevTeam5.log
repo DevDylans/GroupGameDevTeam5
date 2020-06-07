@@ -1,19 +1,36 @@
 ﻿  Game.cpp
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
   class template variant is only available with C++17 or later.
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(93,79): warning C4239: nonstandard extension used: 'argument': conversion from 'std::vector<GameObject *,std::allocator<GameObject *>>' to 'std::vector<GameObject *,std::allocator<GameObject *>> &'
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(93,79): message : A non-const reference may only be bound to an lvalue
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(36,62): error C3867: 'std::vector<int,std::allocator<int>>::size': non-standard syntax; use '&' to create a pointer to member
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(36,62): error C2446: '<': no conversion from 'unsigned __int64 (__cdecl std::vector<int,std::allocator<int>>::* )(void) noexcept const' to 'int'
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(36,58): message : There is no context in which this conversion is possible
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(38,174): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(41,58): error C3867: 'std::vector<GameObject *,std::allocator<GameObject *>>::size': non-standard syntax; use '&' to create a pointer to member
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(41,58): error C2446: '<': no conversion from 'unsigned __int64 (__cdecl std::vector<GameObject *,std::allocator<GameObject *>>::* )(void) noexcept const' to 'int'
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(41,54): message : There is no context in which this conversion is possible
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(43,105): error C3867: 'Graphics::GetSpecificRenderObject': non-standard syntax; use '&' to create a pointer to member
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(43,105): error C2109: subscript requires array or pointer type
   LevelFile.cpp
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(21,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(23,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(25,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(27,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(27,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(29,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(31,19): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(31,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(33,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(35,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(37,17): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(41,3): error C2143: syntax error: missing ';' before '}'
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(88,22): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(105,30): warning C4244: 'argument': conversion from 'float' to 'const _Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
   Main.cpp
 C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
   class template variant is only available with C++17 or later.
   Generating Code...
-  GroupGameDevTeam5.vcxproj -> C:\Users\user\Documents\University Work\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\GroupGameDevTeam5.exe

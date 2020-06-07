@@ -4,7 +4,6 @@
 #include <sstream>
 #include <string>
 #include "GameObject.h"
-#include "Graphics.h"
 
 using namespace std;
 
@@ -20,13 +19,16 @@ public:
 	bool WriteRenderedObjectFile();
 
 	vector<GameObject*>& GetGameObjects() {return m_GameObjects;}
-
+	vector<int> GetRenderIDs() { return m_RenderIDs; }
+	vector<int> GetRenderedObjects() { return m_RenderedObjects; }
 
 private:
 	float m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ, m_FrameTime;
-	int m_QuadID, m_TextureID;
+	int m_QuadID, m_TextureID, m_RenderedObjectID;
 	vector<GameObject*> m_GameObjects;
-	Graphics m_Graphics;
+	vector<int> m_RenderIDs;
+	vector<int> m_RenderedObjects;
 
 	void CreateGameObject();
+	void CreateRenderedObject();
 };

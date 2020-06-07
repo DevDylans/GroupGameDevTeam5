@@ -31,7 +31,17 @@ void Game::Initialize(HWND window, int width, int height)
     CreateDeviceDependentResources();
 
     m_deviceResources->CreateWindowSizeDependentResources();
-    m_LevelFile = LevelFile();
+
+    m_LevelFile.ReadRenderedObjectFile();
+    for (int i = 0; i < m_LevelFile.GetRenderedObjects().size; i = i + 3)
+    {
+        m_graphicsComponenet->CreateAnimatedRenderObject(m_LevelFile.GetRenderedObjects()[i], m_LevelFile.GetRenderedObjects()[i + 1], m_LevelFile.GetRenderedObjects()[i + 2]);
+    }
+    m_LevelFile.ReadLevelFile();
+    for (int i = 0; i < m_LevelFile.GetGameObjects().size; i = i++)
+    {
+        m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject[m_LevelFile.GetRenderIDs()[i]]);
+    }
     CreateWindowSizeDependentResources();
     m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet);
 
