@@ -50,11 +50,11 @@ bool LevelFile::ReadLevelFile()
 
 bool LevelFile::WriteLevelFile(int renderedObjectID)
 {
-	ofstream levelFile("Level save test.txt");
+	ofstream levelFile("Level.txt");
 
 	if (levelFile.is_open())
 	{
-		for (int i = 0; i < m_GameObjects.size(); i++)
+		for (int i = 0; i > m_GameObjects.size(); i++)
 		{
 			levelFile << m_GameObjects[i]->GetTransform().GetPosition().x << ','
 				<< m_GameObjects[i]->GetTransform().GetPosition().y << ','
@@ -113,15 +113,15 @@ bool LevelFile::ReadRenderedObjectFile()
 
 bool LevelFile::WriteRenderedObjectFile()
 {
-	ofstream renderedObjectFile("RO save test.txt");
+	ofstream renderedObjectFile("Rendered Objects.txt");
 
 	if (renderedObjectFile.is_open())
 	{
-		for (int i = 0; i < m_RenderedObjects.size(); i + 3)
+		for (int i = 0; i < m_QuadIDs.size(); i++)
 		{
-			renderedObjectFile << m_RenderedObjects[i] << ','
-				<< m_RenderedObjects[i + 1] << ','
-				<< m_RenderedObjects[i + 2] << ','
+			renderedObjectFile << m_QuadIDs[i] << ','
+				<< m_TextureIDs[i] << ','
+				<< m_FrameTimes[i] << ','
 				<< endl;
 		}
 		renderedObjectFile.close();
@@ -135,9 +135,9 @@ bool LevelFile::WriteRenderedObjectFile()
 
 void LevelFile::CreateRenderedObject()
 {
-	m_RenderedObjects.push_back(m_QuadID);
-	m_RenderedObjects.push_back(m_TextureID);
-	m_RenderedObjects.push_back(m_FrameTime);
+	m_QuadIDs.push_back(m_QuadID);
+	m_TextureIDs.push_back(m_TextureID);
+	m_FrameTimes.push_back(m_FrameTime);
 }
 
 bool LevelFile::ReadTextureFile()
@@ -167,7 +167,7 @@ bool LevelFile::ReadTextureFile()
 
 bool LevelFile::WriteTextureFile()
 {
-	ofstream TextureFile("Texture save test.txt");
+	ofstream TextureFile("Textures.txt");
 	string tempString;
 
 	using convert_t = std::codecvt_utf8<wchar_t>;

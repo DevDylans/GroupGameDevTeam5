@@ -25,7 +25,9 @@ public:
 
 	vector<GameObject*>& GetGameObjects() {return m_GameObjects;}
 	vector<int> GetRenderIDs() { return m_RenderIDs; }
-	vector<int> GetRenderedObjects() { return m_RenderedObjects; }
+	vector<int> GetRenderedObjectsQuadIDs() { return m_QuadIDs; }
+	vector<int> GetRenderedObjectsTextureIDs() { return m_TextureIDs; }
+	vector<float> GetRenderedObjectsFrameTimes() { return m_FrameTimes; }
 	vector<wstring> GetTextures() { return m_Textures; }
 
 private:
@@ -35,7 +37,9 @@ private:
 
 	vector<GameObject*> m_GameObjects;
 	vector<int> m_RenderIDs;
-	vector<int> m_RenderedObjects;
+	vector<int> m_QuadIDs;
+	vector<int> m_TextureIDs;
+	vector<float> m_FrameTimes;
 	vector<wstring> m_Textures;
 
 	void CreateGameObject();
