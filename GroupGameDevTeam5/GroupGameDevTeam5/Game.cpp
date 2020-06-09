@@ -201,10 +201,6 @@ void Game::CreateDeviceDependentResources()
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
-    for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
-    {
-        m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(0));
-    }
     //bubblesort
     int size = m_LevelFile.GetGameObjects().size();
     bool swapped = false;
