@@ -3,6 +3,7 @@
 #include "ImGui\imgui_impl_win32.h"
 #include "ImGui\imgui_impl_dx11.h"
 #include "Graphics.h"
+#include "LevelFile.h"
 #include <sstream>
 
 class UserInterface
@@ -12,6 +13,7 @@ public:
 	void Draw(ID3D11Device* device, std::vector<GameObject*>& gameObjects);
 private:
 	Graphics& m_graphics;
+	LevelFile m_LevelFile;
 
 	static char sm_textureName[255];
 	static char sm_animationPaths[1200];

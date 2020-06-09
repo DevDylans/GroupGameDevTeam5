@@ -3,14 +3,12 @@
 
 LevelFile::LevelFile()
 {
-	string path = "test level file.txt";
-	ReadFile(path);
-	//WriteFile(path);
+
 }
 
-bool LevelFile::ReadFile(string path)
+bool LevelFile::ReadLevelFile()
 {
-	ifstream levelFile(path);
+	ifstream levelFile("Level.txt");
 	string line;
 	string tempString;
 
@@ -35,8 +33,11 @@ bool LevelFile::ReadFile(string path)
 			m_RotY = stoi(tempString);
 			getline(ss, tempString, ',');
 			m_RotZ = stoi(tempString);
+			getline(ss, tempString, ',');
+			m_RenderedObjectID = stoi(tempString);
 
 			CreateGameObject();
+			m_RenderIDs.push_back(m_RenderedObjectID);
 		}
 		levelFile.close();
 		return true;
@@ -47,13 +48,25 @@ bool LevelFile::ReadFile(string path)
 	}
 }
 
-bool LevelFile::WriteFile(string path)
+bool LevelFile::WriteLevelFile(int renderedObjectID)
 {
-	ofstream levelFile(path);
+	ofstream levelFile("Level save test.txt");
 
 	if (levelFile.is_open())
 	{
-		levelFile << "test_write" << endl;
+		for (int i = 0; i < m_GameObjects.size(); i++)
+		{
+			levelFile << m_GameObjects[i]->GetTransform().GetPosition().x << ','
+				<< m_GameObjects[i]->GetTransform().GetPosition().y << ','
+				<< m_GameObjects[i]->GetTransform().GetPosition().z << ',' 
+				<< m_GameObjects[i]->GetTransform().GetScale().x << ','
+				<< m_GameObjects[i]->GetTransform().GetScale().y << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().x << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().y << ','
+				<< m_GameObjects[i]->GetTransform().GetRotation().z << ','
+				<< renderedObjectID 
+				<< endl;
+		}
 		levelFile.close();
 		return true;
 	}
@@ -62,8 +75,120 @@ bool LevelFile::WriteFile(string path)
 		return false;
 	}
 }
+
 void LevelFile::CreateGameObject()
 {
 	GameObject* gameObject = new GameObject(m_PosX, m_PosY, m_PosZ, m_ScaleX, m_ScaleY, m_RotX, m_RotY, m_RotZ);
 	m_GameObjects.push_back(gameObject);
+}
+
+bool LevelFile::ReadRenderedObjectFile()
+{
+	fstream renderedObjectFile("Rendered Objects.txt");
+	string line;
+	string tempString;
+
+	if (renderedObjectFile.is_open())
+	{
+		while (getline(renderedObjectFile, line))
+		{
+			stringstream ss(line);
+			getline(ss, tempString, ',');
+			m_QuadID = stoi(tempString);
+			getline(ss, tempString, ',');
+			m_TextureID = stoi(tempString);
+			getline(ss, tempString, ',');
+			m_FrameTime = stoi(tempString);
+
+			CreateRenderedObject();
+		}
+		renderedObjectFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool LevelFile::WriteRenderedObjectFile()
+{
+	ofstream renderedObjectFile("RO save test.txt");
+
+	if (renderedObjectFile.is_open())
+	{
+		for (int i = 0; i < m_RenderedObjects.size(); i + 3)
+		{
+			renderedObjectFile << m_RenderedObjects[i] << ','
+				<< m_RenderedObjects[i + 1] << ','
+				<< m_RenderedObjects[i + 2] << ','
+				<< endl;
+		}
+		renderedObjectFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void LevelFile::CreateRenderedObject()
+{
+	m_RenderedObjects.push_back(m_QuadID);
+	m_RenderedObjects.push_back(m_TextureID);
+	m_RenderedObjects.push_back(m_FrameTime);
+}
+
+bool LevelFile::ReadTextureFile()
+{
+	fstream TextureFile("Textures.txt");
+	string line;
+	wstring tempWstring;
+
+	if (TextureFile.is_open())
+	{
+		while (getline(TextureFile, line))
+		{
+			wstring convertedLine(line.length(), L' ');
+			copy(line.begin(), line.end(), convertedLine.begin());
+			m_TexturePath = convertedLine;
+
+			CreateTexture();
+		}
+		TextureFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool LevelFile::WriteTextureFile()
+{
+	ofstream TextureFile("Texture save test.txt");
+	string tempString;
+
+	using convert_t = std::codecvt_utf8<wchar_t>;
+	wstring_convert<convert_t, wchar_t> strconverter;
+
+	if (TextureFile.is_open())
+	{
+		for (int i = 0; i < m_Textures.size(); i++)
+		{
+			TextureFile << strconverter.to_bytes(m_Textures[i]) << endl;
+		}
+		TextureFile.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+void LevelFile::CreateTexture()
+{
+	m_Textures.push_back(m_TexturePath);
 }

@@ -35,16 +35,25 @@ void Game::Initialize(HWND window, int width, int height)
 
     m_deviceResources->CreateWindowSizeDependentResources();
     m_LevelFile = LevelFile();
-    //std::sort(std::begin(m_LevelFile.GetGameObjects()), std::end(m_LevelFile.GetGameObjects()));
+
+    m_LevelFile.ReadTextureFile();
+    for (int i = 0; i < m_LevelFile.GetTextures().size(); i = i++)
+    {
+        m_graphicsComponenet->CreateTexture(m_deviceResources->GetD3DDevice(), m_LevelFile.GetTextures()[i]);
+    }
+    m_LevelFile.ReadRenderedObjectFile();
+    for (int i = 0; i < m_LevelFile.GetRenderedObjects().size(); i = i + 3)
+    {
+        m_graphicsComponenet->CreateAnimatedRenderObject(m_LevelFile.GetRenderedObjects()[i], m_LevelFile.GetRenderedObjects()[i + 1], m_LevelFile.GetRenderedObjects()[i + 2]);
+    }
+    m_LevelFile.ReadLevelFile();
+    for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i = i++)
+    {
+        m_LevelFile.GetGameObjects()[i]->SetRenderObject(m_graphicsComponenet->GetSpecificRenderObject(m_LevelFile.GetRenderIDs()[i]));
+    }
+
     CreateWindowSizeDependentResources();
     m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet);
-
-    // TODO: Change the timer settings if you want something other than the default variable timestep mode.
-    // e.g. for 60 FPS fixed timestep update logic, call:
-    /*
-    m_timer.SetFixedTimeStep(true);
-    m_timer.SetTargetElapsedSeconds(1.0 / 60);
-    */
 
     m_sound = new Sound();
     m_sound->Load(L"death.wav",0);

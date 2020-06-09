@@ -364,7 +364,20 @@ void UserInterface::GameObjectInterface(ID3D11Device* device, std::vector<GameOb
     ImGui::InputText("SaveFile",sm_saveFile,255);
     if (ImGui::Button("SAVE"))
     {
+        m_LevelFile.WriteTextureFile();
+        m_LevelFile.WriteRenderedObjectFile();
 
+        for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
+        {
+            for (int j = 0; j < m_graphics.GetObjectsToRender().size(); j++)
+            {
+                if (m_LevelFile.GetGameObjects()[i]->GetRenderObject() == m_graphics.GetSpecificRenderObject(j))
+                {
+                    m_LevelFile.WriteLevelFile(j);
+                    j = 10000;
+                }
+            }
+        }
     }
     ImGui::End();
 }
