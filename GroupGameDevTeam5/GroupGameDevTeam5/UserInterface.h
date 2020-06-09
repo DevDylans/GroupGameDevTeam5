@@ -9,11 +9,11 @@
 class UserInterface
 {
 public:
-	UserInterface(HWND window, ID3D11Device* device, ID3D11DeviceContext* context,  Graphics& graphics);
+	UserInterface(HWND window, ID3D11Device* device, ID3D11DeviceContext* context,  Graphics& graphics, LevelFile& levelFile);
 	void Draw(ID3D11Device* device, std::vector<GameObject*>& gameObjects);
 private:
 	Graphics& m_graphics;
-	LevelFile m_LevelFile;
+	LevelFile& m_LevelFile;
 
 	static char sm_textureName[255];
 	static char sm_animationPaths[1200];

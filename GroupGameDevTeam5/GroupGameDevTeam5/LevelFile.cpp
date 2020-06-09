@@ -51,20 +51,19 @@ bool LevelFile::ReadLevelFile()
 bool LevelFile::WriteLevelFile(int renderedObjectID)
 {
 	ofstream levelFile("Level save test.txt");
-
 	if (levelFile.is_open())
 	{
 		for (int i = 0; i < m_GameObjects.size(); i++)
 		{
 			levelFile << m_GameObjects[i]->GetTransform().GetPosition().x << ','
 				<< m_GameObjects[i]->GetTransform().GetPosition().y << ','
-				<< m_GameObjects[i]->GetTransform().GetPosition().z << ',' 
+				<< m_GameObjects[i]->GetTransform().GetPosition().z << ','
 				<< m_GameObjects[i]->GetTransform().GetScale().x << ','
 				<< m_GameObjects[i]->GetTransform().GetScale().y << ','
 				<< m_GameObjects[i]->GetTransform().GetRotation().x << ','
 				<< m_GameObjects[i]->GetTransform().GetRotation().y << ','
 				<< m_GameObjects[i]->GetTransform().GetRotation().z << ','
-				<< renderedObjectID 
+				<< m_outputRenderIDs[i]
 				<< endl;
 		}
 		levelFile.close();
@@ -111,18 +110,24 @@ bool LevelFile::ReadRenderedObjectFile()
 	}
 }
 
-bool LevelFile::WriteRenderedObjectFile()
+bool LevelFile::WriteRenderedObjectFile(Graphics graphics)
 {
 	ofstream renderedObjectFile("RO save test.txt");
 
 	if (renderedObjectFile.is_open())
 	{
-		for (int i = 0; i < m_RenderedObjects.size(); i + 3)
+		for (int i = 0; i < graphics.GetObjectsToRender().size(); i++) //quad, anim, frametime
 		{
-			renderedObjectFile << m_RenderedObjects[i] << ','
-				<< m_RenderedObjects[i + 1] << ','
-				<< m_RenderedObjects[i + 2] << ','
-				<< endl;
+			renderedObjectFile << 0 << ',';
+			for (int j = 0; j < graphics.GetAnimations().size(); j++)
+			{
+				if (graphics.GetSpecificAnimation(j, 0)->GetTexture() == graphics.GetSpecificRenderObject(i)->GetAnimations()[0][0])
+				{
+					renderedObjectFile << j << ',';
+					j = 10000;
+				}
+			}
+			renderedObjectFile << graphics.GetSpecificRenderObject(i)->GetAnimationTimes()[0] << endl;
 		}
 		renderedObjectFile.close();
 		return true;
@@ -165,7 +170,7 @@ bool LevelFile::ReadTextureFile()
 	}
 }
 
-bool LevelFile::WriteTextureFile()
+bool LevelFile::WriteTextureFile(Graphics graphics)
 {
 	ofstream TextureFile("Texture save test.txt");
 	string tempString;
@@ -175,9 +180,9 @@ bool LevelFile::WriteTextureFile()
 
 	if (TextureFile.is_open())
 	{
-		for (int i = 0; i < m_Textures.size(); i++)
+		for (int i = 0; i < graphics.GetAnimations().size(); i++)
 		{
-			TextureFile << strconverter.to_bytes(m_Textures[i]) << endl;
+			TextureFile << strconverter.to_bytes(graphics.GetSpecificAnimation(i,0)->textureName) << endl;
 		}
 		TextureFile.close();
 		return true;

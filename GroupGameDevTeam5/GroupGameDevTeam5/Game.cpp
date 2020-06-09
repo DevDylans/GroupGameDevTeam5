@@ -53,7 +53,7 @@ void Game::Initialize(HWND window, int width, int height)
     }
 
     CreateWindowSizeDependentResources();
-    m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet);
+    m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet, m_LevelFile);
 
     m_sound = new Sound();
     m_sound->Load(L"death.wav",0);

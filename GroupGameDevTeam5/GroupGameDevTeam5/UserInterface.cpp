@@ -53,7 +53,7 @@ int UserInterface::sm_editingGameObject = 0;
 bool UserInterface::sm_editingEnabled = false;
 char UserInterface::sm_saveFile[255] = "";
 
-UserInterface::UserInterface(HWND window, ID3D11Device* device, ID3D11DeviceContext* context,  Graphics& graphics) : m_graphics(graphics)
+UserInterface::UserInterface(HWND window, ID3D11Device* device, ID3D11DeviceContext* context, Graphics& graphics, LevelFile& levelFile) : m_graphics(graphics), m_LevelFile(levelFile)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -364,20 +364,21 @@ void UserInterface::GameObjectInterface(ID3D11Device* device, std::vector<GameOb
     ImGui::InputText("SaveFile",sm_saveFile,255);
     if (ImGui::Button("SAVE"))
     {
-        m_LevelFile.WriteTextureFile();
-        m_LevelFile.WriteRenderedObjectFile();
+        m_LevelFile.WriteTextureFile(m_graphics);
+        m_LevelFile.WriteRenderedObjectFile(m_graphics);
 
         for (int i = 0; i < m_LevelFile.GetGameObjects().size(); i++)
         {
             for (int j = 0; j < m_graphics.GetObjectsToRender().size(); j++)
             {
-                if (m_LevelFile.GetGameObjects()[i]->GetRenderObject() == m_graphics.GetSpecificRenderObject(j))
+                if (gameObjects[i]->GetRenderObject() == m_graphics.GetSpecificRenderObject(j))
                 {
-                    m_LevelFile.WriteLevelFile(j);
+                    m_LevelFile.AddRenderID(j);
                     j = 10000;
                 }
             }
         }
+        m_LevelFile.WriteLevelFile(0);
     }
     ImGui::End();
 }

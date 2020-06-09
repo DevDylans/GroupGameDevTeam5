@@ -6,6 +6,7 @@
 #include <codecvt>
 #include <locale>
 #include "GameObject.h"
+#include "Graphics.h"
 
 using namespace std;
 
@@ -18,10 +19,12 @@ public:
 	bool WriteLevelFile(int renderedObjectID);
 
 	bool ReadRenderedObjectFile();
-	bool WriteRenderedObjectFile();
+	bool WriteRenderedObjectFile(Graphics graphics);
 
 	bool ReadTextureFile();
-	bool WriteTextureFile();
+	bool WriteTextureFile(Graphics graphics);
+	
+	void AddRenderID(int id) { m_outputRenderIDs.push_back(id); }
 
 	vector<GameObject*>& GetGameObjects() {return m_GameObjects;}
 	vector<int> GetRenderIDs() { return m_RenderIDs; }
@@ -37,6 +40,7 @@ private:
 	vector<int> m_RenderIDs;
 	vector<int> m_RenderedObjects;
 	vector<wstring> m_Textures;
+	vector<int> m_outputRenderIDs;
 
 	void CreateGameObject();
 	void CreateRenderedObject();
