@@ -66,6 +66,7 @@ bool LevelFile::WriteLevelFile(int renderedObjectID)
 				<< m_outputRenderIDs[i]
 				<< endl;
 		}
+		m_outputRenderIDs.clear();
 		levelFile.close();
 		return true;
 	}
