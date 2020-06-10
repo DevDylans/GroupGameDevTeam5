@@ -18,21 +18,21 @@ bool LevelFile::ReadLevelFile()
 		{
 			stringstream ss(line);
 			getline(ss, tempString, ',');
-			m_PosX = stoi(tempString);
+			m_PosX = stof(tempString);
 			getline(ss, tempString, ',');
-			m_PosY = stoi(tempString);
+			m_PosY = stof(tempString);
 			getline(ss, tempString, ',');
-			m_PosZ = stoi(tempString);
+			m_PosZ = stof(tempString);
 			getline(ss, tempString, ',');
-			m_ScaleX = stoi(tempString);
+			m_ScaleX = stof(tempString);
 			getline(ss, tempString, ',');
-			m_ScaleY = stoi(tempString);
+			m_ScaleY = stof(tempString);
 			getline(ss, tempString, ',');
-			m_RotX = stoi(tempString);
+			m_RotX = stof(tempString);
 			getline(ss, tempString, ',');
-			m_RotY = stoi(tempString);
+			m_RotY = stof(tempString);
 			getline(ss, tempString, ',');
-			m_RotZ = stoi(tempString);
+			m_RotZ = stof(tempString);
 			getline(ss, tempString, ',');
 			m_RenderedObjectID = stoi(tempString);
 
