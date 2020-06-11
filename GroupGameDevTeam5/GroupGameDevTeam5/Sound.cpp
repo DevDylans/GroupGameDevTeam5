@@ -44,9 +44,10 @@ void Sound::OnResuming()
     m_audEngine->Resume();
 }
 
-void Sound::Load(wchar_t * file, int id) 
+void Sound::Load(wchar_t* file, int id)
 {
-    m_soundVector.push_back(std::make_unique<SoundEffect>(m_audEngine.get(), file)->CreateInstance());
+    m_soundTemp.push_back(std::make_unique<SoundEffect>(m_audEngine.get(), file));
+    m_soundVector.push_back(m_soundTemp[id]->CreateInstance());
 }
 
 void Sound::Play(int id)
@@ -73,3 +74,5 @@ void Sound::SetPan(int pan, int id)
 {
     m_soundVector[id]->SetPan(pan);
 }
+
+

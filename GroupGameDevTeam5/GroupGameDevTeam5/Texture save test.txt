@@ -1,4 +1,5 @@
 Transparent.png
-TestTexture.png
-TestTexture2.png
-TestTexture3.png
+Floor1.png
+FloorLong.png
+FloorLong.png
+CharacterAnim0.png

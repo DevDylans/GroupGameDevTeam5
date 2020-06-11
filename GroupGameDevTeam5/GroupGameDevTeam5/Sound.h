@@ -21,6 +21,6 @@ public:
 	std::unique_ptr<DirectX::AudioEngine> m_audEngine;
 
 	std::vector<std::unique_ptr<DirectX::SoundEffectInstance>> m_soundVector;
-
+	std::vector<std::unique_ptr<DirectX::SoundEffect>> m_soundTemp;
 };
 
