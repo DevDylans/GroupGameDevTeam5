@@ -5,6 +5,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "debugapi.h"
+#include "Collisions.h"
 
 extern void ExitGame();
 
@@ -12,10 +13,19 @@ using namespace DirectX;
 
 using Microsoft::WRL::ComPtr;
 
+
 Game::Game() noexcept(false)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     m_deviceResources->RegisterDeviceNotify(this);
+/*
+	std::vector<wstring> anim;
+	anim.push_back(L"Assets/AnimationTex0.png");
+	anim.push_back(L"Assets/AnimationTex1.png");
+	anim.push_back(L"Assets/AnimationTex2.png");
+	anim.push_back(L"Assets/AnimationTex3.png");
+	m_graphicsComponenet->CreateTextureGroup(m_deviceResources->GetD3DDevice(), anim);
+    */
 }
 
 Game::~Game()
@@ -56,7 +66,10 @@ void Game::Initialize(HWND window, int width, int height)
     m_UI = new UserInterface(window, m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext(), *m_graphicsComponenet, m_LevelFile);
 
     m_sound = new Sound();
+
     m_sound->Load(L"death.wav",0);
+    m_sound->Load(L"Night.wav", 1);
+    m_sound->Load(L"CoinSound.wav", 2);
 }
 
 #pragma region Frame Update
@@ -81,8 +94,48 @@ void Game::Update(DX::StepTimer const& timer)
     m_graphicsComponenet->Update(elapsedTime);
 
     CollisionManager::GetInstance()->CollisionDetection();
-
     CollisionManager::GetInstance()->UpdatePhysics(elapsedTime);
+
+    float speed = 1.4 * time;
+    
+
+    if (GetAsyncKeyState('W'))
+    {
+        //m_LevelFile.GetGameObjects()[0]->MovePosition(0, speed, 0);
+    }
+    if (GetAsyncKeyState('S'))
+    {
+        //m_LevelFile.GetGameObjects()[0]->MovePosition(0, -speed, 0);
+    }
+    if (GetAsyncKeyState('D'))
+    {
+        m_LevelFile.GetGameObjects()[0]->MovePosition(speed, 0 ,0);
+    }
+    if (GetAsyncKeyState('A'))
+    {
+        m_LevelFile.GetGameObjects()[0]->MovePosition(-speed, 0 ,0);
+    }
+
+    m_LevelFile.GetGameObjects()[2]->MovePosition(-enemySpeed, 0, 0);
+    enemyMoveTimer -= elapsedTime;
+    if (enemyMoveTimer <= 0)
+    {
+        enemyMoveTimer = 2.0f;
+        enemySpeed = -1 * enemySpeed;
+    }
+
+    if (Collision::Instance()->Box(m_LevelFile.GetGameObjects()[0]->GetCollisionBox(), m_LevelFile.GetGameObjects()[2]->GetCollisionBox()))
+    {
+        m_LevelFile.GetGameObjects()[0]->SetPosition(550, 140, 1);
+        m_sound->Play(0);
+    }
+
+    if (Collision::Instance()->Box(m_LevelFile.GetGameObjects()[0]->GetCollisionBox(), m_LevelFile.GetGameObjects()[5]->GetCollisionBox()))
+    {
+        m_LevelFile.GetGameObjects()[5]->SetPosition(50, 50, 0);
+        m_sound->Play(2);
+    }
+
 }
 #pragma endregion
 
@@ -95,6 +148,8 @@ void Game::Render()
     {
         return;
     }
+
+    m_sound->PlayLoop(1);
 
     Clear();
 
@@ -139,6 +194,7 @@ void Game::Clear()
 void Game::OnActivated()
 {
     // TODO: Game is becoming active window.
+
 }
 
 void Game::OnDeactivated()
@@ -193,7 +249,7 @@ void Game::CreateDeviceDependentResources()
 
     // TODO: Initialize device dependent objects here (independent of window size).
     device;
-
+	
     m_graphicsComponenet = new Graphics(device);
 }
 

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "Game.h"
 
 GameObject::GameObject(float posX, float posY, float posZ)
 {
@@ -152,6 +153,7 @@ void GameObject::Update(float deltaTime)
 		_particleModel->Update(deltaTime);
 	}
 }
+
 float GameObject::GetCollisionRadius()
 {
 	return m_collisionRadius;
@@ -159,5 +161,6 @@ float GameObject::GetCollisionRadius()
 
 BoxEntents GameObject::GetCollisionBox()
 {
-	return BoxEntents(_objTransform.GetPosition().x, _objTransform.GetPosition().y, _objTransform.GetScale().x, _objTransform.GetScale().y);
+	return BoxEntents(_objTransform.GetPosition().x, _objTransform.GetPosition().y, 50, 50);
+	
 }

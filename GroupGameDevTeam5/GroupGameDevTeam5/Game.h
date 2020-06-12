@@ -71,6 +71,8 @@ private:
 
     LevelFile m_LevelFile;
     bool time = true;
+    float enemyMoveTimer = 2.0f;
+    float enemySpeed = 1.1 * time;
 
     Sound * m_sound;
 };

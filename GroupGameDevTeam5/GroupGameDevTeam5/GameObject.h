@@ -7,6 +7,7 @@ using namespace DirectX;
 #include<algorithm>
 #include "ParticleModel.h"
 
+
 class GameObject
 {
 public:
@@ -48,6 +49,7 @@ private:
 	Transform _objTransform;
 	RenderedObject* m_render = nullptr;
 	ParticleModel* _particleModel = nullptr;
-	float m_collisionRadius = 15;
+	float m_collisionRadius = 100;
+
 };
 

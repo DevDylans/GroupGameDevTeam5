@@ -143,22 +143,22 @@ void Graphics::Draw(ID3D11DeviceContext* context, int shaderID, std::vector<Game
 
 void Graphics::Update(float time)
 {
-	float speed = 100 * time;
+	float speed = 200 * time;
 	if (GetAsyncKeyState('W'))
 	{
-		m_camera->MovePosition(0, speed, 0);
+		//m_camera->MovePosition(0, speed, 0);
 	}
 	if (GetAsyncKeyState('S'))
 	{
-		m_camera->MovePosition(0, -speed, 0);
+		//m_camera->MovePosition(0, -speed, 0);
 	}
 	if (GetAsyncKeyState('A'))
 	{
-		m_camera->MovePosition(m_camera->GetLeft() * speed);
+		//m_camera->MovePosition(m_camera->GetLeft() * speed);
 	}
 	if (GetAsyncKeyState('D'))
 	{
-		m_camera->MovePosition(m_camera->GetRight() * speed);
+		//m_camera->MovePosition(m_camera->GetRight() * speed);
 	}
 	for (int i = 0; i < m_objectsToRender.size(); i++)
 	{

@@ -1,2 +1,5 @@
-Floor1.png
 FloorLong.png
+CharacterAnim0.png
+Enemy0.png
+night.png
+Coin.png

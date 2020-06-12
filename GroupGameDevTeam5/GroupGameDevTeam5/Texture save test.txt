@@ -1,5 +1,6 @@
 Transparent.png
-Floor1.png
 FloorLong.png
-FloorLong.png
+Enemy0.png
 CharacterAnim0.png
+night.png
+Coin.png

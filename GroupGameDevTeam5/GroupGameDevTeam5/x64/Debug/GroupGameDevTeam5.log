@@ -1,107 +1,12 @@
-﻿  compilation object save succeeded; see D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\DefaultPixelShader.cso
-  compilation object save succeeded; see D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\DefaultVertexShader.cso
-  pch.cpp
-  Camera.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
-  Collisions.cpp
-  CollisionManager.cpp
-  DeviceResources.cpp
-  Game.cpp
+﻿  Game.cpp
 D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
   The contents of <variant> are available only with C++17 or later.
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(47,174): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.h(75,28): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(57,174): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
           with
           [
               _Ty=int
           ]
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(205,51): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-  GameObject.cpp
-  Graphics.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(115,27): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(177,20): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(179,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(189,14): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(197,29): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(191,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(199,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(211,14): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(218,31): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(213,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(220,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(244,26): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(246,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(256,26): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(262,36): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(258,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(298,22): warning C4456: declaration of 'i' hides previous local declaration
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(287,11): message : see declaration of 'i'
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(313,25): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(315,34): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(330,20): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(337,31): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(332,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(339,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(361,20): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(368,63): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(363,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(370,35): warning C4101: 'e': unreferenced local variable
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(381,20): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Graphics.cpp(383,35): warning C4101: 'e': unreferenced local variable
-  imgui.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui.cpp(805): warning C4603: '_CRT_SECURE_NO_WARNINGS': macro is not defined or definition is different after precompiled header use
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui.cpp(805): message : Add macro to precompiled header instead of defining here
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui.cpp(807): message : use of precompiled header
-  imgui_draw.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui_draw.cpp(26): warning C4603: '_CRT_SECURE_NO_WARNINGS': macro is not defined or definition is different after precompiled header use
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui_draw.cpp(26): message : Add macro to precompiled header instead of defining here
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui_draw.cpp(29): message : use of precompiled header
-  imgui_impl_dx11.cpp
-  imgui_impl_win32.cpp
-  imgui_widgets.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui_widgets.cpp(32): warning C4603: '_CRT_SECURE_NO_WARNINGS': macro is not defined or definition is different after precompiled header use
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui_widgets.cpp(32): message : Add macro to precompiled header instead of defining here
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\ImGui\imgui_widgets.cpp(34): message : use of precompiled header
-  LevelFile.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(51,36): warning C4100: 'renderedObjectID': unreferenced formal parameter
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(101,22): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\LevelFile.cpp(146,30): warning C4244: 'argument': conversion from 'float' to 'const _Ty', possible loss of data
-          with
-          [
-              _Ty=int
-          ]
-  Main.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
-  The contents of <variant> are available only with C++17 or later.
-  ParticleModel.cpp
-  Quad.cpp
-  RenderedObject.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\RenderedObject.cpp(70,13): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\RenderedObject.cpp(72,35): warning C4101: 'e': unreferenced local variable
-  Shaders.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Shaders.cpp(31,122): warning C4100: 'numElements': unreferenced formal parameter
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Shaders.cpp(31,105): warning C4100: 'layoutDesc': unreferenced formal parameter
-  Texture.cpp
-  TexturedQuad.cpp
-  Generating Code...
-  Compiling...
-  Transform.cpp
-  UserInterface.cpp
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Camera.h(26,36): warning C4324: 'Camera': structure was padded due to alignment specifier
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\UserInterface.cpp(60,14): warning C4189: 'io': local variable is initialized but not referenced
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\UserInterface.cpp(169,59): warning C4100: 'device': unreferenced formal parameter
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\UserInterface.cpp(284,38): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\UserInterface.cpp(315,24): warning C4834: discarding return value of function with 'nodiscard' attribute
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\UserInterface.cpp(261,55): warning C4100: 'device': unreferenced formal parameter
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\UserInterface.cpp(317,42): warning C4101: 'e': unreferenced local variable
-  Sound.cpp
-  The contents of <variant> are available only with C++17 or later.
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(32,26): warning C4100: 'elapsedTime': unreferenced formal parameter
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(70,34): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Sound.cpp(75,31): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  Generating Code...
-     Creating library D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\GroupGameDevTeam5.lib and object D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\GroupGameDevTeam5.exp
-DirectXTK.lib(pch.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(pch.obj)' or at 'D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\DirectXTK.pdb'; linking object as if no debug info
-DirectXTK.lib(WICTextureLoader.obj) : warning LNK4099: PDB 'DirectXTK.pdb' was not found with 'DirectXTK.lib(WICTextureLoader.obj)' or at 'D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\DirectXTK.pdb'; linking object as if no debug info
+D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(99,17): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\GroupGameDevTeam5\Game.cpp(261,51): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
   GroupGameDevTeam5.vcxproj -> D:\UnrealProjects\GithubProjects\GroupGameDevTeam5\GroupGameDevTeam5\x64\Debug\GroupGameDevTeam5.exe
