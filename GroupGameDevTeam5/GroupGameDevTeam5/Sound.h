@@ -19,7 +19,7 @@ public:
 	void SetPan(int pan, int id);
 
 	std::unique_ptr<DirectX::AudioEngine> m_audEngine;
-
+	std::vector<std::unique_ptr<DirectX::SoundEffect>> m_soundTemp;
 	std::vector<std::unique_ptr<DirectX::SoundEffectInstance>> m_soundVector;
 
 };

@@ -223,6 +223,8 @@ void Game::CreateWindowSizeDependentResources()
             break;
         }
     }
+
+
 }
 
 void Game::OnDeviceLost()
